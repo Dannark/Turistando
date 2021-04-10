@@ -17,15 +17,15 @@ interface PostDao {
     @Query("SELECT * FROM posts ORDER BY postId DESC")
     fun getAll(): LiveData<List<Post>>
 
+    @Query("SELECT * FROM posts ORDER BY postId DESC LIMIT 1")
+    fun getLast(): Post?
+
     @Delete
-    fun delete(post: Post)
+    fun delete(post: Post): Int
 
     @Delete
     fun deleteFromList(posts: List<Post>): Int
 
     @Query("DELETE FROM posts")
     fun clear()
-
-    @Query("SELECT * FROM posts ORDER BY postId DESC LIMIT 1")
-    fun getLastPost(): Post?
 }

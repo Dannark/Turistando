@@ -44,7 +44,7 @@ class RecommendedPlacesAdapter(val clickListener: RecommendedPlaceListener):
 
 class RecommendedPlacesDiffCallback : DiffUtil.ItemCallback<Place>(){
     override fun areItemsTheSame(oldItem: Place, newItem: Place): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem.placeId == newItem.placeId
     }
 
     override fun areContentsTheSame(oldItem: Place, newItem: Place): Boolean {
@@ -53,5 +53,5 @@ class RecommendedPlacesDiffCallback : DiffUtil.ItemCallback<Place>(){
 }
 
 class RecommendedPlaceListener(val clickListener: (placeId: Long) -> Unit){
-    fun onClick(place: Place) = clickListener(place.id)
+    fun onClick(place: Place) = clickListener(place.placeId)
 }

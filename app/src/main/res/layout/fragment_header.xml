@@ -16,7 +16,10 @@
             android:clickable="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="20dp">
+            android:paddingLeft="20dp"
+            android:paddingTop="15dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="15dp">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="48dp"
@@ -50,13 +53,14 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:text="Rio de Janeiro, Brazil"
-                    android:textAlignment="textStart" />
+                    android:textAlignment="textStart"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <Button
@@ -64,7 +68,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_weight="0"
-                android:background="@android:drawable/ic_menu_sort_by_size"
+                android:background="@drawable/menu_three_lines"
                 android:clickable="false" />
 
         </LinearLayout>

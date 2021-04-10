@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
@@ -20,10 +19,11 @@
             android:layout_height="300dp"
             android:layout_marginTop="50dp"
             android:scaleType="centerCrop"
+            android:contentDescription="post image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+            app:srcCompat="@drawable/landscape2" />
 
         <ImageView
             android:id="@+id/imageView4"
@@ -31,6 +31,7 @@
             android:layout_height="25dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="7dp"
+            android:contentDescription=""
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView3"
             app:srcCompat="@drawable/heart"
@@ -42,6 +43,7 @@
             android:layout_height="25dp"
             android:layout_marginTop="7dp"
             android:layout_marginEnd="8dp"
+            android:contentDescription=""
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView3"
             app:srcCompat="@android:drawable/ic_menu_share"
@@ -53,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
-            android:text="Curtido por outras 179 pessoas"
+            android:text="Curtido por outras 178 pessoas"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView4" />

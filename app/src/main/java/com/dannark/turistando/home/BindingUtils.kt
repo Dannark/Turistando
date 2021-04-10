@@ -22,6 +22,6 @@ fun TextView.setPlaceCityString(item: Place){
 @BindingAdapter("placeImage")
 fun ImageButton.setPlaceImage(item: Place){
     item?.let {
-        setImageResource(item.backgroundImg!!)
+        setImageResource(item.img!!)
     }
 }

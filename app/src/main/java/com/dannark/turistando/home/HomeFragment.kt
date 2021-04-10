@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.dannark.turistando.MainActivity
 import com.dannark.turistando.R
+import com.dannark.turistando.database.TuristandoDatabase
 import com.dannark.turistando.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -24,19 +25,24 @@ class HomeFragment : Fragment() {
     ): View? {
 
         val binding: FragmentHomeBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_home, container, false
-        )
+            inflater, R.layout.fragment_home, container, false)
 
-        Log.i("HomeFragment", "Called ViewModelProvider")
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        // Database and FactoryViewModel setup
+        val application = requireNotNull(this.activity).application
+        val dataSource = TuristandoDatabase.getInstance(application).placeDao
+        val viewModelFactory = HomeViewModelFactory(dataSource, application)
 
+        viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
+
+
+        // Adapters
         val adapter = RecommendedPlacesAdapter(RecommendedPlaceListener { placeId ->
-            viewModel.onRecommendedPlaceClicked(
-                placeId
-            )
+            viewModel.onRecommendedPlaceClicked(placeId)
         })
         binding.recommendedList.adapter = adapter
         adapter.submitList(viewModel.data)
+
+        // Listeners
         viewModel.navigateToPlaceDetails.observe(viewLifecycleOwner, Observer { place ->
             place?.let {
                 Toast.makeText(context, "Navegando para Place Details ${place}", Toast.LENGTH_LONG)
@@ -54,7 +60,7 @@ class HomeFragment : Fragment() {
 
         //Observable fields
         viewModel.count.observe(viewLifecycleOwner, Observer { newValue ->
-            binding.searchPlaces.setText(newValue.toString())
+            //binding.searchPlaces.setText(newValue.toString())
         })
 
         viewModel.eventButtonPressed.observe(viewLifecycleOwner, Observer { pressed ->
