@@ -18,7 +18,7 @@ class RecommendedPlacesAdapter(val clickListener: RecommendedPlaceListener):
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item =  getItem(position)
+        val item = getItem(position)
         holder.bind(item, clickListener)
     }
 

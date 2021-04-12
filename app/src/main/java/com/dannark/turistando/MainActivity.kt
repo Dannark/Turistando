@@ -26,10 +26,9 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         showSystemUI()
 
-        drawerLayout = binding.drawerLayout
-        val navController = this.findNavController(R.id.myNavHostFragment)
-        NavigationUI.setupWithNavController(binding.navView, navController)
-
+//        drawerLayout = binding.drawerLayout
+//        val navController = this.findNavController(R.id.myNavHostFragment)
+//        NavigationUI.setupWithNavController(binding.navView, navController)
     }
 
     private fun showSystemUI() {
@@ -41,6 +40,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun openDrawer() {
-        binding.drawerLayout.openDrawer(Gravity.START)
+        //binding.drawerLayout.openDrawer(Gravity.START)
     }
 }

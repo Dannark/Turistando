@@ -27,6 +27,9 @@ data class Post (
         @ColumnInfo(name = "description")
         var description: String = "",
 
+        @ColumnInfo(name = "likes")
+        var likes: Int = 0,
+
         @ColumnInfo(name = "img")
         var img: Int = R.drawable.landscape1,
 )

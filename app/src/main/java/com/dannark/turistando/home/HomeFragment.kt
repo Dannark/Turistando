@@ -29,18 +29,36 @@ class HomeFragment : Fragment() {
 
         // Database and FactoryViewModel setup
         val application = requireNotNull(this.activity).application
-        val dataSource = TuristandoDatabase.getInstance(application).placeDao
-        val viewModelFactory = HomeViewModelFactory(dataSource, application)
+        val placeDataSource = TuristandoDatabase.getInstance(application).placeDao
+        val postDataSource = TuristandoDatabase.getInstance(application).postDao
+        val viewModelFactory = HomeViewModelFactory(placeDataSource, postDataSource, application)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
 
+        // Set XML to access function and variables directly from the View Model
+        binding.homeViewModel = viewModel
+        Log.e("Home","${R.drawable.landscape1}")//2131165314
+        Log.e("Home","${R.drawable.landscape2}")//2131165315
+        Log.e("Home","${R.drawable.landscape3}")//2131165316
+        Log.e("Home","${R.drawable.lencois_maranhences}")//2131165318
+        Log.e("Home","${R.drawable.pipa_rio_grande_do_norte}")//2131165350
 
         // Adapters
-        val adapter = RecommendedPlacesAdapter(RecommendedPlaceListener { placeId ->
+        val placeAdapter = RecommendedPlacesAdapter(RecommendedPlaceListener { placeId ->
             viewModel.onRecommendedPlaceClicked(placeId)
         })
-        binding.recommendedList.adapter = adapter
-        adapter.submitList(viewModel.data)
+        binding.recommendedList.adapter = placeAdapter
+
+        val postAdapter = PostsAdapter(PostsListener{ postId, buttonId ->
+            if(buttonId == "share"){
+                Toast.makeText(context, "Deletando post ${postId}", Toast.LENGTH_SHORT).show()
+                viewModel.deletePost(postId)
+            }
+            else if(buttonId == "like"){
+                viewModel.likePost(postId)
+            }
+        })
+        binding.postsList.adapter = postAdapter
 
         // Listeners
         viewModel.navigateToPlaceDetails.observe(viewLifecycleOwner, Observer { place ->
@@ -54,13 +72,17 @@ class HomeFragment : Fragment() {
             }
         })
 
-//        binding.testeButton.setOnClickListener {
-//            viewModel.nextValue()
-//        }
-
         //Observable fields
-        viewModel.count.observe(viewLifecycleOwner, Observer { newValue ->
-            //binding.searchPlaces.setText(newValue.toString())
+        viewModel.places.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                placeAdapter.submitList(it)
+            }
+        })
+
+        viewModel.posts.observe(viewLifecycleOwner, {
+            it?.let {
+                postAdapter.submitList(it)
+            }
         })
 
         viewModel.eventButtonPressed.observe(viewLifecycleOwner, Observer { pressed ->

@@ -1,67 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <variable
-            name="Place"
-            type="com.dannark.turistando.database.Place" />
+            name="post"
+            type="com.dannark.turistando.database.Post" />
+        <variable
+            name="clickListener"
+            type="com.dannark.turistando.home.PostsListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="15dp">
+        android:paddingBottom="20dp">
 
         <ImageView
             android:id="@+id/imageView3"
+            postImage="@{post}"
             android:layout_width="wrap_content"
             android:layout_height="300dp"
             android:layout_marginTop="50dp"
-            android:scaleType="centerCrop"
             android:contentDescription="post image"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/landscape2" />
-
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="7dp"
-            android:contentDescription=""
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3"
-            app:srcCompat="@drawable/heart"
-            app:tint="@color/black" />
-
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginEnd="8dp"
-            android:contentDescription=""
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3"
-            app:srcCompat="@android:drawable/ic_menu_share"
-            app:tint="@color/black" />
+            tools:srcCompat="@drawable/landscape2" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/likes_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
-            android:text="Curtido por outras 178 pessoas"
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+            app:layout_constraintStart_toStartOf="@+id/likeButton"
+            app:layout_constraintTop_toBottomOf="@+id/likeButton"
+            tools:text="@string/likes_post_example"
+            postsLikesFormatted="@{post}"/>
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/author_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -75,35 +56,62 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/post_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:text="@string/lorem_ipsum_small"
+            android:layout_marginEnd="10dp"
+            android:text="@{post.description}"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+            app:layout_constraintTop_toBottomOf="@+id/likes_description"
+            tools:text="@string/lorem_ipsum_small" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView3"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_marginStart="7dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
             app:cardCornerRadius="50dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/imageView5"
+                android:id="@+id/user_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/profile" />
         </androidx.cardview.widget.CardView>
+
+        <ImageButton
+            android:id="@+id/likeButton"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:tint="@color/black"
+            android:onClick="@{() -> clickListener.onLikeClick(post)}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3"
+            app:srcCompat="@drawable/heart" />
+
+        <ImageButton
+            android:id="@+id/shareButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="10dp"
+            android:background="@android:color/transparent"
+            android:onClick="@{() -> clickListener.onShareClick(post)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3"
+            app:srcCompat="?attr/actionModeShareDrawable" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

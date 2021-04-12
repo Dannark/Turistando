@@ -9,10 +9,21 @@ import androidx.lifecycle.ViewModel
 import com.dannark.turistando.R
 import com.dannark.turistando.database.Place
 import com.dannark.turistando.database.PlaceDao
+import com.dannark.turistando.database.Post
 import com.dannark.turistando.database.PostDao
+import kotlinx.coroutines.*
 
-class HomeViewModel(val database: PlaceDao, application: Application)
+class HomeViewModel(val placeDao: PlaceDao, val postDao: PostDao, application: Application)
     : AndroidViewModel(application) {
+
+    private var viewModelJob = Job()
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
+
+    private val uiScope = CoroutineScope(Dispatchers.Main +  viewModelJob)
 
     private val _count = MutableLiveData<Int>() //readable and writable
     val count : LiveData<Int> //readable
@@ -22,48 +33,97 @@ class HomeViewModel(val database: PlaceDao, application: Application)
     val eventButtonPressed: LiveData<Boolean>
         get() = _eventButtonPressed
 
-    private lateinit var placeList: MutableList<Place>
 
-    val data = mutableListOf<Place>()
+    private var lastPlace = MutableLiveData<Place?>()
+    val places = placeDao.getAll()
+    val posts = postDao.getAll()
 
     init {
-        val now = System.currentTimeMillis()
-        data.add(Place(0, now,1, now, "Bom Jardin de Minas","Minas Gerais", R.drawable.landscape1))
-        data.add(Place(1, now,1, now,"Nova Iguaçu","Rio de Janeiro", R.drawable.landscape2))
-        data.add(Place(2, now,1, now,"Rocinha","Rio de Janeiro", R.drawable.landscape3))
-        data.add(Place(3, now,1, now,"Acari","Rio de Janeiro", R.drawable.landscape1))
-
-        data.add(Place(4, now,1, now,"Nova Iguaçu","Rio de Janeiro", R.drawable.landscape2))
-        data.add(Place(5, now,1, now,"Rocinha","Rio de Janeiro", R.drawable.landscape3))
-        data.add(Place(6, now,1, now,"Acari","Rio de Janeiro", R.drawable.landscape1))
-        data.add(Place(7, now,1, now,"Bom Jardin de Minas","Minas Gerais", R.drawable.landscape2))
-
-        data.add(Place(8, now,1, now,"Bom Jardin de Minas","Minas Gerais", R.drawable.landscape1))
-        data.add(Place(9, now,1, now,"Nova Iguaçu","Rio de Janeiro", R.drawable.landscape2))
-        data.add(Place(10, now,1, now,"Rocinha","Rio de Janeiro", R.drawable.landscape3))
-        data.add(Place(11, now,1, now,"Acari","Rio de Janeiro", R.drawable.landscape1))
-
-        data.add(Place(12, now,1, now,"Nova Iguaçu","Rio de Janeiro", R.drawable.landscape2))
-        data.add(Place(13, now,1, now,"Rocinha","Rio de Janeiro", R.drawable.landscape3))
-        data.add(Place(14, now,1, now,"Acari","Rio de Janeiro", R.drawable.landscape1))
-        data.add(Place(15, now,1, now,"Bom Jardin de Minas","Minas Gerais", R.drawable.landscape2))
-
-        data.add(Place(16, now,1, now,"Bom Jardin de Minas","Minas Gerais", R.drawable.landscape1))
-        data.add(Place(17, now,1, now,"Nova Iguaçu","Rio de Janeiro", R.drawable.landscape2))
-        data.add(Place(18, now,1, now,"Rocinha","Rio de Janeiro", R.drawable.landscape3))
-        data.add(Place(19, now,1, now,"Acari","Rio de Janeiro", R.drawable.landscape1))
-
-        data.add(Place(19, now,1, now,"Nova Iguaçu","Rio de Janeiro", R.drawable.landscape2))
-        data.add(Place(20, now,1, now,"Rocinha","Rio de Janeiro", R.drawable.landscape3))
-        data.add(Place(21, now,1, now,"Acari","Rio de Janeiro", R.drawable.landscape1))
-        data.add(Place(22, now,1, now,"Bom Jardin de Minas","Minas Gerais", R.drawable.landscape2))
+        initializeLastPlace()
+        //createRecommendedPlace()
         Log.i("HomeViewModel", "PlaceViewModel created!")
         _count.value = 0
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        Log.i("HomeViewModel", "PlaceViewModel destroyed!")
+    private fun initializeLastPlace() {
+        uiScope.launch {
+            lastPlace.value = getLastPlaceFromplaceDao()
+        }
+    }
+
+    private suspend fun getLastPlaceFromplaceDao(): Place? {
+        return withContext(Dispatchers.IO){
+            val place = placeDao.getLast()
+            place
+        }
+    }
+
+    fun createRecommendedPlace(){
+        uiScope.launch {
+
+            insertPlace(Place(createdBy=1, city="Bom Jardin de Minas", contry = "Minas Gerais", img = R.drawable.landscape1))
+            insertPlace(Place(createdBy=1, city="Nova Iguaçu", contry = "Rio de Janeiro", img = R.drawable.landscape2))
+            insertPlace(Place(createdBy=1, city="Rocinha", contry = "Rio de Janeiro", img = R.drawable.landscape3))
+
+            lastPlace.value = getLastPlaceFromplaceDao()
+        }
+    }
+
+    private suspend fun insertPlace(place: Place) {
+        withContext(Dispatchers.IO){
+            placeDao.insert(place)
+        }
+    }
+
+    fun clearAllPlaces(){
+        uiScope.launch {
+            clear()
+        }
+    }
+
+    private suspend fun clear(){
+        return withContext(Dispatchers.IO){
+            placeDao.clear()
+        }
+    }
+
+    fun createPost(){
+        uiScope.launch {
+            insertPost(Post(title = "Pipa, Rio Grande do Norte",
+                description = "O litoral do Rio Grande do Norte assumiu, desde 2018, a liderança entre os posts mais acessados no Viagens Cine e continua sendo um dos melhores lugares para viajar no Brasil.", likes = 79, img = R.drawable.pipa_rio_grande_do_norte))
+        }
+    }
+    
+    private suspend fun insertPost(post: Post){
+        withContext(Dispatchers.IO){
+            postDao.insert(post)
+        }
+    }
+
+    fun deletePost(postId: Long){
+        uiScope.launch { _deletePost(postId) }
+    }
+
+    private suspend fun _deletePost(postId: Long){
+        withContext(Dispatchers.IO){
+            val post = postDao.get(postId)
+            post?.let {
+                postDao.delete(it)
+            }
+        }
+    }
+
+    fun likePost(postId: Long){
+        uiScope.launch { _likePost(postId) }
+    }
+
+    private suspend fun _likePost(postId: Long){
+        withContext(Dispatchers.IO){
+            val post = postDao.get(postId)
+            post.likes += 1
+            post.lastUpdateDate = System.currentTimeMillis()
+            postDao.update(post)
+        }
     }
 
     fun add() {
