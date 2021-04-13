@@ -37,11 +37,6 @@ class HomeFragment : Fragment() {
 
         // Set XML to access function and variables directly from the View Model
         binding.homeViewModel = viewModel
-        Log.e("Home","${R.drawable.landscape1}")//2131165314
-        Log.e("Home","${R.drawable.landscape2}")//2131165315
-        Log.e("Home","${R.drawable.landscape3}")//2131165316
-        Log.e("Home","${R.drawable.lencois_maranhences}")//2131165318
-        Log.e("Home","${R.drawable.pipa_rio_grande_do_norte}")//2131165350
 
         // Adapters
         val placeAdapter = RecommendedPlacesAdapter(RecommendedPlaceListener { placeId ->
@@ -81,7 +76,7 @@ class HomeFragment : Fragment() {
 
         viewModel.posts.observe(viewLifecycleOwner, {
             it?.let {
-                postAdapter.submitList(it)
+                postAdapter.addHeaderAndSubmitList(it)
             }
         })
 

@@ -8,7 +8,7 @@ import java.sql.Date
 
 @Entity(tableName = "posts")
 data class Post (
-        
+
         @PrimaryKey(autoGenerate = true)
         var postId: Long = 0L,
 
@@ -31,5 +31,5 @@ data class Post (
         var likes: Int = 0,
 
         @ColumnInfo(name = "img")
-        var img: Int = R.drawable.landscape1,
+        var img: String? = null,
 )

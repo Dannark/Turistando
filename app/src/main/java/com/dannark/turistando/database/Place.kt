@@ -27,5 +27,5 @@ data class Place(
         var contry: String? = "Brazil - MG",
 
         @ColumnInfo(name = "img")
-        var img: Int? = R.drawable.landscape1
+        var img: String? = null
 )

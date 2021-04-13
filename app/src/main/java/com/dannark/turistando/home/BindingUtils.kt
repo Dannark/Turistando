@@ -1,11 +1,20 @@
 package com.dannark.turistando.home
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Log
+import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.VideoView
 import androidx.databinding.BindingAdapter
 import com.dannark.turistando.database.Place
 import com.dannark.turistando.database.Post
+import kotlinx.coroutines.*
+import java.io.IOException
+import java.lang.Runnable
+import java.net.URL
 
 @BindingAdapter("placeContryFormatted")
 fun TextView.setPlaceContryFormatted(item: Place){
@@ -24,7 +33,11 @@ fun TextView.setPlaceCityString(item: Place){
 @BindingAdapter("placeImage")
 fun ImageButton.setPlaceImage(item: Place){
     item?.let {
-        setImageResource(item.img!!)
+        val uiScope = CoroutineScope(Dispatchers.Main)
+        uiScope.launch {
+            setImageBitmap(updateImageFromInternet(item.img!!))
+
+        }
     }
 }
 
@@ -35,9 +48,28 @@ fun TextView.postsLikesFormatted(item: Post){
     }
 }
 
-@BindingAdapter("postImage")
-fun ImageView.setPostImage(item: Post){
+@BindingAdapter("setImageFromInternet")
+fun ImageView.setImageFromInternet(item: Post){
     item?.let {
-        setImageResource(item.img!!)
+        val uiScope = CoroutineScope(Dispatchers.Main)
+        uiScope.launch {
+            setImageBitmap(updateImageFromInternet(item.img!!))
+        }
     }
 }
+private suspend fun updateImageFromInternet(imgURL: String): Bitmap?{
+    return withContext(Dispatchers.IO){
+        var url = URL(imgURL)
+        var connection = url.openConnection()
+        var image = null
+
+        try {
+            return@withContext BitmapFactory.decodeStream(connection.getInputStream());
+        }catch (ioe: IOException) {
+            Log.e("BindingUtils","Fail loading image from internet, check your" +
+                    " connectivity")
+        }
+        image
+    }
+}
+

@@ -57,4 +57,14 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.2.6'
     // Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:2.2.6"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:converter-scalars:$version_retrofit"
+
+    // Retrofit with Moshi Converter
+    implementation "com.squareup.retrofit2:converter-moshi:$version_retrofit"
+
+    // Moshi
+    implementation "com.squareup.moshi:moshi:$version_moshi"
+    implementation "com.squareup.moshi:moshi-kotlin:$version_moshi"
 }

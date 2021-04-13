@@ -11,7 +11,11 @@ import com.dannark.turistando.database.Place
 import com.dannark.turistando.database.PlaceDao
 import com.dannark.turistando.database.Post
 import com.dannark.turistando.database.PostDao
+import com.dannark.turistando.network.TuristandoApi
 import kotlinx.coroutines.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class HomeViewModel(val placeDao: PlaceDao, val postDao: PostDao, application: Application)
     : AndroidViewModel(application) {
@@ -34,24 +38,17 @@ class HomeViewModel(val placeDao: PlaceDao, val postDao: PostDao, application: A
         get() = _eventButtonPressed
 
 
-    private var lastPlace = MutableLiveData<Place?>()
     val places = placeDao.getAll()
     val posts = postDao.getAll()
 
     init {
-        initializeLastPlace()
-        //createRecommendedPlace()
-        Log.i("HomeViewModel", "PlaceViewModel created!")
+//        createRecommendedPlace()
+//        createPost()
+//        testRetrofit()
         _count.value = 0
     }
 
-    private fun initializeLastPlace() {
-        uiScope.launch {
-            lastPlace.value = getLastPlaceFromplaceDao()
-        }
-    }
-
-    private suspend fun getLastPlaceFromplaceDao(): Place? {
+    private suspend fun getLastPlaceFromPlaceDao(): Place? {
         return withContext(Dispatchers.IO){
             val place = placeDao.getLast()
             place
@@ -61,11 +58,10 @@ class HomeViewModel(val placeDao: PlaceDao, val postDao: PostDao, application: A
     fun createRecommendedPlace(){
         uiScope.launch {
 
-            insertPlace(Place(createdBy=1, city="Bom Jardin de Minas", contry = "Minas Gerais", img = R.drawable.landscape1))
-            insertPlace(Place(createdBy=1, city="Nova Iguaçu", contry = "Rio de Janeiro", img = R.drawable.landscape2))
-            insertPlace(Place(createdBy=1, city="Rocinha", contry = "Rio de Janeiro", img = R.drawable.landscape3))
+            insertPlace(Place(createdBy=1, city="Bom Jardin de Minas", contry = "Minas Gerais", img = "https://i.ibb.co/D1k39QM/landscape1.png"))
+            insertPlace(Place(createdBy=1, city="Nova Iguaçu", contry = "Rio de Janeiro", img = "https://i.ibb.co/7y4mW2n/landscape2.png"))
+            insertPlace(Place(createdBy=1, city="Rocinha", contry = "Rio de Janeiro", img = "https://i.ibb.co/DKxmV2K/landscape3.png"))
 
-            lastPlace.value = getLastPlaceFromplaceDao()
         }
     }
 
@@ -89,8 +85,17 @@ class HomeViewModel(val placeDao: PlaceDao, val postDao: PostDao, application: A
 
     fun createPost(){
         uiScope.launch {
+            insertPost(Post(title = "Titulo da postagem",
+                    description = "Foto tirada no sul de minas, pela manhã o sol estava bem forte, porém ao fim da tarde, pudemos ver esse lindo por do sol, enquanto preparava minha camera para fotografa-lo, algo inesperado aconteceu...",
+                    likes = 1, img = "https://i.ibb.co/7y4mW2n/landscape2.png"))
+
+            insertPost(Post(title = "Rota das Emoções e Lençóis Maranhenses, Maranhão",
+                    description = "Rota das Emoções e Lençóis Maranhenses, Maranhão. Também conhecido como um dos três dos melhores lugares para viajar no Brasil num mesmo roteiro: Lençóis Maranhenses, Delta do Parnaíba e Jericoacoara.",
+                    likes = 1, img = "https://i.ibb.co/NV3VM6q/lencois-maranhences.png"))
+
             insertPost(Post(title = "Pipa, Rio Grande do Norte",
-                description = "O litoral do Rio Grande do Norte assumiu, desde 2018, a liderança entre os posts mais acessados no Viagens Cine e continua sendo um dos melhores lugares para viajar no Brasil.", likes = 79, img = R.drawable.pipa_rio_grande_do_norte))
+                    description = "O litoral do Rio Grande do Norte assumiu, desde 2018, a liderança entre os posts mais acessados no Viagens Cine e continua sendo um dos melhores lugares para viajar no Brasil.",
+                    likes = 79, img = "https://i.ibb.co/RYnY9Rx/pipa-rio-grande-do-norte.png"))
         }
     }
     
@@ -119,10 +124,7 @@ class HomeViewModel(val placeDao: PlaceDao, val postDao: PostDao, application: A
 
     private suspend fun _likePost(postId: Long){
         withContext(Dispatchers.IO){
-            val post = postDao.get(postId)
-            post.likes += 1
-            post.lastUpdateDate = System.currentTimeMillis()
-            postDao.update(post)
+            postDao.likePost(postId, System.currentTimeMillis())
         }
     }
 
@@ -152,5 +154,17 @@ class HomeViewModel(val placeDao: PlaceDao, val postDao: PostDao, application: A
 
     fun onPlaceDetailsNavigated(){
         _navigateToPlaceDetails.value = null
+    }
+
+    private fun testRetrofit(){
+        TuristandoApi.retrofitServices.getPropreties().enqueue(object : Callback<String>{
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                Log.e("HomeView","retrofit ${response.body()}")
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.e("HomeView","Faliure: ${t.message}")
+            }
+        })
     }
 }

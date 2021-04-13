@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.internal.synchronized
 
-@Database(entities = [Post::class, Place::class, User::class], version = 2, exportSchema = false)
+@Database(entities = [Post::class, Place::class, User::class], version = 3, exportSchema = false)
 abstract class TuristandoDatabase: RoomDatabase() {
     abstract val postDao: PostDao
     abstract val placeDao: PlaceDao

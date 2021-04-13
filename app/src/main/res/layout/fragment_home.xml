@@ -112,7 +112,6 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:layout_weight="0"
-                                android:onClick="@{() -> homeViewModel.createPost()}"
                                 android:text="Near"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/darker_gray"

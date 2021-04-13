@@ -20,6 +20,9 @@ interface PostDao {
     @Query("SELECT * FROM posts ORDER BY postId DESC LIMIT 1")
     fun getLast(): Post?
 
+    @Query("UPDATE posts SET likes = likes+1, last_update_date  = :now WHERE postId = :postId")
+    fun likePost(postId: Long, now: Long)
+
     @Delete
     fun delete(post: Post): Int
 
