@@ -3,6 +3,7 @@ buildscript {
     ext.kotlin_version = "1.4.30"
     ext.version_moshi = "1.9.3"
     ext.version_retrofit = "2.9.0"
+    ext.version_glide = "4.8.0"
 
     repositories {
         google()

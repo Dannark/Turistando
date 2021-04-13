@@ -175,7 +175,9 @@
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                            app:layout_constraintTop_toBottomOf="@+id/textView3"
+                            tools:itemCount="6"
+                            tools:listitem="@layout/item_list_post"/>
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recommended_list"
@@ -186,7 +188,9 @@
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/tag_group" />
+                            app:layout_constraintTop_toBottomOf="@+id/tag_group"
+                            tools:itemCount="6"
+                            tools:listitem="@layout/item_list_recommended_places"/>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>

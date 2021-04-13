@@ -5,12 +5,11 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.dannark.turistando.R
 import com.dannark.turistando.database.Place
 import com.dannark.turistando.database.PlaceDao
 import com.dannark.turistando.database.Post
 import com.dannark.turistando.database.PostDao
+import com.dannark.turistando.network.PostProperty
 import com.dannark.turistando.network.TuristandoApi
 import kotlinx.coroutines.*
 import retrofit2.Call
@@ -112,7 +111,7 @@ class HomeViewModel(val placeDao: PlaceDao, val postDao: PostDao, application: A
     private suspend fun _deletePost(postId: Long){
         withContext(Dispatchers.IO){
             val post = postDao.get(postId)
-            post?.let {
+            post.let {
                 postDao.delete(it)
             }
         }
@@ -157,12 +156,12 @@ class HomeViewModel(val placeDao: PlaceDao, val postDao: PostDao, application: A
     }
 
     private fun testRetrofit(){
-        TuristandoApi.retrofitServices.getPropreties().enqueue(object : Callback<String>{
-            override fun onResponse(call: Call<String>, response: Response<String>) {
+        TuristandoApi.retrofitServices.getPropreties().enqueue(object : Callback<List<PostProperty>>{
+            override fun onResponse(call: Call<List<PostProperty>>, response: Response<List<PostProperty>>) {
                 Log.e("HomeView","retrofit ${response.body()}")
             }
 
-            override fun onFailure(call: Call<String>, t: Throwable) {
+            override fun onFailure(call: Call<List<PostProperty>>, t: Throwable) {
                 Log.e("HomeView","Faliure: ${t.message}")
             }
         })
