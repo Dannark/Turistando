@@ -3,32 +3,34 @@ package com.dannark.turistando.placedetails
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ShareCompat
-import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.dannark.turistando.R
-import com.dannark.turistando.database.Place
 import com.dannark.turistando.databinding.FragmentPlaceDetailsBinding
 
 class PlaceDetailsFragment : Fragment() {
-
-    private lateinit var viewModel: PlaceViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding: FragmentPlaceDetailsBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_place_details, container, false
-        )
+//        val binding: FragmentPlaceDetailsBinding = DataBindingUtil.inflate(
+//            inflater, R.layout.fragment_place_details, container, false
+//        )
+        val application = requireNotNull(activity).application
+        val binding = FragmentPlaceDetailsBinding.inflate(inflater)
+        binding.lifecycleOwner = this
 
-        viewModel = ViewModelProvider(this).get(PlaceViewModel::class.java)
+        //get selected Place from navigation
+        val placeSelected = PlaceDetailsFragmentArgs.fromBundle(requireArguments()).selectedPlace
+        val viewModeFactory = PlaceDetailViewModelFactory(placeSelected, application)
+
+        binding.viewModel = ViewModelProvider(this, viewModeFactory).get(PlaceDetailViewModel::class.java)
 
         binding.backButton.setOnClickListener {
             this.findNavController().navigate(
@@ -40,7 +42,6 @@ class PlaceDetailsFragment : Fragment() {
         }
 
         if (null == getShareIntent().resolveActivity(requireActivity().packageManager)) {
-            // hide the share button if it doesn't resolve
             binding.share.visibility = View.GONE
         }
 
@@ -49,7 +50,6 @@ class PlaceDetailsFragment : Fragment() {
     }
 
     private fun getShareIntent() : Intent{
-        val shareIntent = Intent(Intent.ACTION_SEND)
         return ShareCompat.IntentBuilder.from(requireActivity())
             .setText("My Awesome App")
             .setType("text/plain")

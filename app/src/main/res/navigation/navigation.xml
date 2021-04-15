@@ -19,6 +19,9 @@
         android:id="@+id/placeDetailsFragment"
         android:name="com.dannark.turistando.placedetails.PlaceDetailsFragment"
         android:label="PlaceDetailsFragment" >
+        <argument
+            android:name="selectedPlace"
+            app:argType="com.dannark.turistando.database.Place" />
         <action
             android:id="@+id/action_placeDetailsFragment_to_homeFragment"
             app:destination="@id/homeMenu"

@@ -1,7 +1,6 @@
 package com.dannark.turistando.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.dannark.turistando.MainActivity
 import com.dannark.turistando.R
 import com.dannark.turistando.database.TuristandoDatabase
 import com.dannark.turistando.databinding.FragmentHomeBinding
@@ -39,8 +37,8 @@ class HomeFragment : Fragment() {
         binding.homeViewModel = viewModel
 
         // Adapters
-        val placeAdapter = RecommendedPlacesAdapter(RecommendedPlaceListener { placeId ->
-            viewModel.onRecommendedPlaceClicked(placeId)
+        val placeAdapter = RecommendedPlacesAdapter(RecommendedPlaceListener {
+            viewModel.displayPlaceDetails(it)
         })
         binding.recommendedList.adapter = placeAdapter
 
@@ -58,12 +56,10 @@ class HomeFragment : Fragment() {
         // Listeners
         viewModel.navigateToPlaceDetails.observe(viewLifecycleOwner, Observer { place ->
             place?.let {
-                Toast.makeText(context, "Navegando para Place Details ${place}", Toast.LENGTH_LONG)
-                    .show()
                 this.findNavController().navigate(
-                    HomeFragmentDirections.actionHomeFragmentToPlaceDetailsFragment()
+                    HomeFragmentDirections.actionHomeFragmentToPlaceDetailsFragment(place)
                 )
-                viewModel.onPlaceDetailsNavigated()
+                viewModel.onPlaceDetailsCompleted()
             }
         })
 
@@ -77,12 +73,6 @@ class HomeFragment : Fragment() {
         viewModel.posts.observe(viewLifecycleOwner, {
             it?.let {
                 postAdapter.addHeaderAndSubmitList(it)
-            }
-        })
-
-        viewModel.eventButtonPressed.observe(viewLifecycleOwner, Observer { pressed ->
-            if (pressed) {
-                viewModel.onButtonPressed()
             }
         })
 

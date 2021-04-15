@@ -52,6 +52,6 @@ class RecommendedPlacesDiffCallback : DiffUtil.ItemCallback<Place>(){
     }
 }
 
-class RecommendedPlaceListener(val clickListener: (placeId: Long) -> Unit){
-    fun onClick(place: Place) = clickListener(place.placeId)
+class RecommendedPlaceListener(val clickListener: (place: Place) -> Unit){
+    fun onClick(place: Place) = clickListener(place)
 }
