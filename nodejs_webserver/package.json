@@ -1,0 +1,24 @@
+{
+  "name": "turistando_webserver",
+  "version": "1.0.0",
+  "description": "A Trip Managment App for smart peoples",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.js"
+  },
+  "keywords": [
+    "Turist",
+    "App",
+    "backend"
+  ],
+  "author": "Daniel Queiroz",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "knex": "^0.95.4",
+    "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}

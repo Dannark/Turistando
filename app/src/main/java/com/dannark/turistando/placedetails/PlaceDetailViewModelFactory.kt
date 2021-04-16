@@ -3,7 +3,7 @@ package com.dannark.turistando.placedetails
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.dannark.turistando.database.Place
+import com.dannark.turistando.domain.Place
 
 class PlaceDetailViewModelFactory (
     private val myPlace: Place,

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="rRlace"
-            type="com.dannark.turistando.database.Place" />
+            type="com.dannark.turistando.domain.Place" />
         <variable
             name="clickListener"
             type="com.dannark.turistando.home.RecommendedPlaceListener" />
@@ -29,9 +29,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/background_rec_place"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:foreground="@drawable/button"
@@ -39,6 +38,17 @@
                 tools:srcCompat="@tools:sample/backgrounds/scenic"
                 android:onClick="@{() -> clickListener.onClick(rRlace)}"
                 app:imageUrl="@{rRlace.img}"/>
+
+            <ImageView
+                android:id="@+id/gradient_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_gravity="bottom"
+                android:alpha=".8"
+                android:rotation="180"
+                android:scaleType="fitXY"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/dark_gradient" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -73,5 +83,6 @@
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

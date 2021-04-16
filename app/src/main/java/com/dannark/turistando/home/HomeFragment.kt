@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.dannark.turistando.R
-import com.dannark.turistando.database.TuristandoDatabase
 import com.dannark.turistando.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -25,11 +24,9 @@ class HomeFragment : Fragment() {
         val binding: FragmentHomeBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_home, container, false)
 
-        // Database and FactoryViewModel setup
         val application = requireNotNull(this.activity).application
-        val placeDataSource = TuristandoDatabase.getInstance(application).placeDao
-        val postDataSource = TuristandoDatabase.getInstance(application).postDao
-        val viewModelFactory = HomeViewModelFactory(placeDataSource, postDataSource, application)
+        val userId = 1
+        val viewModelFactory = HomeViewModelFactory(userId, application)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
 
@@ -45,7 +42,6 @@ class HomeFragment : Fragment() {
         val postAdapter = PostsAdapter(PostsListener{ postId, buttonId ->
             if(buttonId == "share"){
                 Toast.makeText(context, "Deletando post ${postId}", Toast.LENGTH_SHORT).show()
-                viewModel.deletePost(postId)
             }
             else if(buttonId == "like"){
                 viewModel.likePost(postId)

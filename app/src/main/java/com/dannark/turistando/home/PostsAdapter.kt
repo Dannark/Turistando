@@ -1,7 +1,6 @@
 package com.dannark.turistando.home
 
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +8,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dannark.turistando.R
-import com.dannark.turistando.database.Post
 import com.dannark.turistando.databinding.ItemListPostBinding
+import com.dannark.turistando.domain.Post
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -46,7 +45,7 @@ class PostsAdapter(val clickListener: PostsListener)
         }
     }
 
-    fun addHeaderAndSubmitList(list: List<Post>?){
+    fun addHeaderAndSubmitList(list: List<Post>){
         adapterScope.launch {
             val items = when(list){
                 null -> listOf(DataItem.Header)

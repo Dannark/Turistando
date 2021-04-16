@@ -7,8 +7,8 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.dannark.turistando.R
-import com.dannark.turistando.database.Place
-import com.dannark.turistando.database.Post
+import com.dannark.turistando.domain.Place
+import com.dannark.turistando.domain.Post
 
 @BindingAdapter("placeContryFormatted")
 fun TextView.setPlaceContryFormatted(item: Place){

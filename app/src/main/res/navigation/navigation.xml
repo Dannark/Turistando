@@ -21,7 +21,7 @@
         android:label="PlaceDetailsFragment" >
         <argument
             android:name="selectedPlace"
-            app:argType="com.dannark.turistando.database.Place" />
+            app:argType="com.dannark.turistando.domain.Place" />
         <action
             android:id="@+id/action_placeDetailsFragment_to_homeFragment"
             app:destination="@id/homeMenu"

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="post"
-            type="com.dannark.turistando.database.Post" />
+            type="com.dannark.turistando.domain.Post" />
         <variable
             name="clickListener"
             type="com.dannark.turistando.home.PostsListener" />

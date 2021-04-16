@@ -5,13 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.dannark.turistando.database.Place
 import com.dannark.turistando.databinding.ItemListRecommendedPlacesBinding
+import com.dannark.turistando.domain.Place
 
 // This is ListAdapter is a RecyclerView, not a general ListView
 class RecommendedPlacesAdapter(val clickListener: RecommendedPlaceListener):
         ListAdapter<Place, RecommendedPlacesAdapter.ViewHolder>(RecommendedPlacesDiffCallback()){
-    val TAG = "RecommendedPlaces"
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)

@@ -1,11 +1,9 @@
 package com.dannark.turistando
 
-import android.util.Log
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.dannark.turistando.database.*
-import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -44,20 +42,20 @@ class TuristandoDatabaseTest {
     @Test
     @Throws(Exception::class)
     fun insertAndGetPost(){
-        val post = Post(title = "post")
+        val post = PostDatabase(title = "post")
         postDao.insert(post)
         val lastPost = postDao.getLast()
-        Assert.assertEquals("post", lastPost?.title)
+        Assert.assertEquals("post", lastPost.title)
     }
 
     @Test
     @Throws(Exception::class)
     fun deleteLastPost(){
-        val post = Post()
+        val post = PostDatabase()
         postDao.insert(post)
 
         val lastPost = postDao.getLast()
-        var deletedRowsCount = lastPost?.let { postDao.delete(it) }
+        var deletedRowsCount = lastPost.let { postDao.delete(it) }
 
         Assert.assertEquals(1, deletedRowsCount)
     }
@@ -66,18 +64,18 @@ class TuristandoDatabaseTest {
     @Test
     @Throws(Exception::class)
     fun insertAndGetPlace(){
-        val place = Place(city = "rio")
+        val place = PlaceDatabase(city = "rio")
         placeDao.insert(place)
         val lastPlace = placeDao.getLast()
-        Assert.assertEquals("rio", lastPlace?.city)
+        Assert.assertEquals("rio", lastPlace.city)
     }
 
     @Test
     @Throws(Exception::class)
     fun deleteLastPlace(){
-        placeDao.insert(Place())
+        placeDao.insert(PlaceDatabase())
         val lastPlace = placeDao.getLast()
-        val deletedRowsCount = lastPlace?.let { placeDao.delete(it) }
+        val deletedRowsCount = lastPlace.let { placeDao.delete(it) }
 
         Assert.assertEquals(1, deletedRowsCount)
     }

@@ -35,8 +35,11 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="24dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
                         android:text="Book the Hotel"
-                        android:textSize="14sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        app:cornerRadius="14dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -273,7 +276,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="24dp"
-                        android:text="@{viewModel.selectedPlace.placeName}"
+                        android:text="@{viewModel.selectedPlaceDatabase.placeName}"
                         android:textColor="@color/black"
                         android:textSize="24sp"
                         android:textStyle="bold"
@@ -286,7 +289,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="@{viewModel.selectedPlace.state}"
+                        android:text="@{viewModel.selectedPlaceDatabase.state}"
                         app:layout_constraintStart_toStartOf="@+id/stars"
                         app:layout_constraintTop_toBottomOf="@+id/stars"
                         tools:text="@tools:sample/cities" />
@@ -297,7 +300,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:lineSpacingExtra="2sp"
-                        android:text="@{viewModel.selectedPlace.description}"
+                        android:text="@{viewModel.selectedPlaceDatabase.description}"
                         android:textColor="@color/description_text"
                         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
                         app:layout_constraintStart_toStartOf="@+id/linearLayout"
@@ -353,12 +356,23 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            app:imageUrl="@{viewModel.selectedPlace.img}"
+                            app:imageUrl="@{viewModel.selectedPlaceDatabase.img}"
                             tools:srcCompat="@drawable/landscape1" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
+
+                            <ImageView
+                                android:id="@+id/dark_background"
+                                android:layout_width="match_parent"
+                                android:layout_height="135dp"
+                                android:alpha=".7"
+                                android:scaleType="fitXY"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/dark_gradient" />
 
                             <ImageButton
                                 android:id="@+id/like"
@@ -368,7 +382,7 @@
                                 android:layout_marginEnd="16dp"
                                 android:background="@android:color/transparent"
                                 android:scaleType="fitXY"
-                                android:tint="@color/purple_500"
+                                android:tint="@color/white"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:srcCompat="@drawable/heart" />
@@ -381,7 +395,7 @@
                                 android:layout_marginEnd="16dp"
                                 android:background="@android:color/transparent"
                                 android:scaleType="fitXY"
-                                android:tint="@color/purple_500"
+                                android:tint="@color/white"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/like"
                                 app:srcCompat="?attr/actionModeShareDrawable" />
@@ -394,21 +408,11 @@
                                 android:layout_marginTop="70dp"
                                 android:background="@android:color/transparent"
                                 android:scaleType="fitXY"
-                                android:tint="@color/purple_500"
+                                android:tint="@color/white"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:srcCompat="@drawable/left_arrow" />
 
-                            <ImageView
-                                android:id="@+id/dark_background"
-                                android:layout_width="match_parent"
-                                android:layout_height="135dp"
-                                android:alpha=".5"
-                                android:scaleType="fitXY"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/dark_gradient" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </androidx.cardview.widget.CardView>

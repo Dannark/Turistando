@@ -1,31 +1,41 @@
 package com.dannark.turistando.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 
 @Dao
 interface PlaceDao {
-    @Insert
-    fun insert (place: Place)
+//    @Insert
+//    fun insert (placeDatabase: PlaceDatabase)
+//
+//    @Update
+//    fun update(placeDatabase: PlaceDatabase)
+//
+//    @Query("SELECT * FROM places WHERE placeId = :key")
+//    fun get(key: Long): PlaceDatabase
+//
+//    @Query("SELECT * FROM places ORDER BY placeId DESC")
+//    fun getAll(): LiveData<List<PlaceDatabase>>
+//
+//    @Query("SELECT * FROM places ORDER BY placeId DESC LIMIT 1")
+//    fun getLast(): PlaceDatabase?
+//
+//    @Delete
+//    fun delete(placeDatabase: PlaceDatabase): Int
+//
+//    @Delete
+//    fun deleteFromList(placeDatabases: List<PlaceDatabase>): Int
+//
+//    @Query("DELETE FROM places")
+//    fun clear()
 
-    @Update
-    fun update(place: Place)
-
-    @Query("SELECT * FROM places WHERE placeId = :key")
-    fun get(key: Long): Place
+    //upsert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(vararg places: PlaceDatabase)
 
     @Query("SELECT * FROM places ORDER BY placeId DESC")
-    fun getAll(): LiveData<List<Place>>
-
-    @Query("SELECT * FROM places ORDER BY placeId DESC LIMIT 1")
-    fun getLast(): Place?
-
-    @Delete
-    fun delete(place: Place): Int
-
-    @Delete
-    fun deleteFromList(places: List<Place>): Int
-
-    @Query("DELETE FROM places")
-    fun clear()
+    fun getAll(): LiveData<List<PlaceDatabase>>
 }
