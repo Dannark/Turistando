@@ -1,5 +1,6 @@
 package com.dannark.turistando.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.dannark.turistando.database.TuristandoDatabase
@@ -17,8 +18,12 @@ class PlacesRepository (private val database: TuristandoDatabase){
 
     suspend fun refreshPlaces(){
         withContext(Dispatchers.IO){
-            val placeList = Network.turistando.getPlaceList().await()
-            database.placeDao.insertAll(*placeList.asDatabaseModel())
+            try {
+                val placeList = Network.turistando.getPlaceList().await()
+                database.placeDao.insertAll(*placeList.asDatabaseModel())
+            }catch (e: Exception){
+                Log.e("PlacesRepository","Couldn't update the list from the server")
+            }
         }
     }
 }

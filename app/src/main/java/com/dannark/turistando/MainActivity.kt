@@ -1,15 +1,22 @@
 package com.dannark.turistando
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.drawerlayout.widget.DrawerLayout
+import androidx.work.*
 import com.dannark.turistando.databinding.ActivityMainBinding
+import com.dannark.turistando.work.RefreshDataWork
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var drawerLayout: DrawerLayout
+    private val applicationScope = CoroutineScope(Dispatchers.IO)
+
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,6 +24,31 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         showSystemUI()
 
+        delayedInit()
+    }
+
+    private fun delayedInit() {
+        val constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.UNMETERED)
+                .setRequiresBatteryNotLow(true)
+                .setRequiresCharging(true)
+                .apply {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                        setRequiresDeviceIdle(true)
+                    }
+                }.build()
+
+        applicationScope.launch {
+            val repeatingRequest = PeriodicWorkRequestBuilder<RefreshDataWork>(1, TimeUnit.DAYS)
+                    .setConstraints(constraints)
+                    .build()
+
+            WorkManager.getInstance().enqueueUniquePeriodicWork(
+                    RefreshDataWork.WORK_NAME,
+                    ExistingPeriodicWorkPolicy.KEEP,
+                    repeatingRequest
+            )
+        }
     }
 
     private fun showSystemUI() {

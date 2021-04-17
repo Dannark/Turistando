@@ -1,9 +1,10 @@
-package com.dannark.turistando.placedetails
+package com.dannark.turistando.ui.placedetails
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dannark.turistando.domain.Place
+import com.dannark.turistando.viewmodels.PlaceDetailViewModel
 
 class PlaceDetailViewModelFactory (
     private val myPlace: Place,

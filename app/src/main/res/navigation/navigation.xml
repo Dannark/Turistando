@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/homeMenu"
-        android:name="com.dannark.turistando.home.HomeFragment"
+        android:name="com.dannark.turistando.ui.home.HomeFragment"
         android:label="HomeFragment" >
         <action
             android:id="@+id/action_homeFragment_to_placeDetailsFragment"
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/placeDetailsFragment"
-        android:name="com.dannark.turistando.placedetails.PlaceDetailsFragment"
+        android:name="com.dannark.turistando.ui.placedetails.PlaceDetailsFragment"
         android:label="PlaceDetailsFragment" >
         <argument
             android:name="selectedPlace"

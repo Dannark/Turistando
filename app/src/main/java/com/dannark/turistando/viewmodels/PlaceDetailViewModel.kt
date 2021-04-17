@@ -1,4 +1,4 @@
-package com.dannark.turistando.placedetails
+package com.dannark.turistando.viewmodels
 
 import android.app.Application
 import android.util.Log

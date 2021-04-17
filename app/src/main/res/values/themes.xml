@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Turistando" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Turistando" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -12,14 +12,25 @@
         <!-- Status bar color. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-<!--        <item name="android:windowIsTranslucent">true</item>-->
-<!--        <item name="android:windowTranslucentNavigation">true</item>-->
         <item name="android:windowLightStatusBar">true</item>
-
         <item name="android:statusBarColor" tools:targetApi="l">@android:color/transparent</item>
         <item name="android:navigationBarColor">@color/background_material_light</item>
-<!--         <item name="android:windowTranslucentStatus">true</item>-->
-<!--        <item name="android:windowFullscreen">true</item>-->
-<!--        <item name="android:immersive">true</item>-->
+
+        <!-- Default Properties -->
+        <item name="android:fontFamily">@font/pt_sans</item>
+        <item name="fontFamily">@font/pt_sans</item>
+    </style>
+    
+    <style name="TextAppearance.TitleBig" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.TitleMid" parent="TextAppearance.TitleBig">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextAppearance.SubTitle" parent="Widget.AppCompat.TextView">
     </style>
 </resources>

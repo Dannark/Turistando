@@ -1,4 +1,4 @@
-package com.dannark.turistando.home
+package com.dannark.turistando.ui.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +12,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.dannark.turistando.R
 import com.dannark.turistando.databinding.FragmentHomeBinding
+import com.dannark.turistando.home.PostsAdapter
+import com.dannark.turistando.home.PostsListener
+import com.dannark.turistando.home.RecommendedPlaceListener
+import com.dannark.turistando.home.RecommendedPlacesAdapter
+import com.dannark.turistando.viewmodels.HomeViewModel
 
 class HomeFragment : Fragment() {
 

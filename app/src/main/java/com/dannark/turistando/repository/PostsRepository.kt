@@ -18,10 +18,13 @@ class PostsRepository (private val database: TuristandoDatabase){
 
     suspend fun refreshPosts(){
         withContext(Dispatchers.IO){
-            Log.e("PostRepo","buscando posts")
-            val postList = Network.turistando.getPostList().await()
-            Log.e("PostRepo","dados retornados, inserindo no banco")
-            database.postDao.insertAll(*postList.asDatabaseModel())
+            try {
+                val postList = Network.turistando.getPostList().await()
+                database.postDao.insertAll(*postList.asDatabaseModel())
+            }catch (e: Exception){
+                Log.e("PostsRepository","Couldn't update the list from the server")
+            }
+
         }
     }
 }

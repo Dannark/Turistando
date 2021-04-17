@@ -1,4 +1,4 @@
-package com.dannark.turistando.header
+package com.dannark.turistando.ui.header
 
 import android.os.Bundle
 import android.view.LayoutInflater

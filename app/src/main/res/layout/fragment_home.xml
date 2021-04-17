@@ -6,14 +6,14 @@
     <data>
         <variable
             name="homeViewModel"
-            type="com.dannark.turistando.home.HomeViewModel" />
+            type="com.dannark.turistando.viewmodels.HomeViewModel" />
     </data>
 
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".home.HomeFragment">
+        tools:context=".ui.home.HomeFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,7 +22,7 @@
 
             <fragment
                 android:id="@+id/headerFragment"
-                android:name="com.dannark.turistando.header.HeaderFragment"
+                android:name="com.dannark.turistando.ui.header.HeaderFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:layout="@layout/fragment_header" />
@@ -88,6 +88,7 @@
                                 android:layout_marginRight="10dp"
                                 android:layout_weight="0"
                                 android:clickable="true"
+                                android:fontFamily="@font/ubuntu"
                                 android:text="Recommended"
                                 android:textAlignment="center"
                                 android:textColor="@color/black"
@@ -127,17 +128,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Rua Major Medeiros, 131"
+                            style="@style/TextAppearance.SubTitle"
                             app:layout_constraintStart_toEndOf="@+id/imageView7"
                             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
                         <TextView
                             android:id="@+id/textView2"
+                            style="@style/TextAppearance.TitleBig"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Explore New Places!"
-                            android:textColor="@color/black"
-                            android:textSize="24sp"
-                            android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="@+id/imageView7"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -147,9 +147,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="32dp"
                             android:text="Your Friends Near By"
-                            android:textColor="@color/black"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
+                            style="@style/TextAppearance.TitleMid"
                             app:layout_constraintStart_toStartOf="@+id/search_places"
                             app:layout_constraintTop_toBottomOf="@+id/recommended_list" />
 

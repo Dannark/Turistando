@@ -1,8 +1,9 @@
-package com.dannark.turistando.home
+package com.dannark.turistando.ui.home
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.dannark.turistando.viewmodels.HomeViewModel
 
 class HomeViewModelFactory (
     private val userId: Int,

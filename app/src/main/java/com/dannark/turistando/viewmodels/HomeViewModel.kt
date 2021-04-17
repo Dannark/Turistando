@@ -1,4 +1,4 @@
-package com.dannark.turistando.home
+package com.dannark.turistando.viewmodels
 
 import android.app.Application
 import android.content.Context

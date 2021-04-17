@@ -32,14 +32,14 @@
 
         <TextView
             android:id="@+id/likes_description"
+            postsLikesFormatted="@{post}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="@+id/likeButton"
             app:layout_constraintTop_toBottomOf="@+id/likeButton"
-            tools:text="@string/likes_post_example"
-            postsLikesFormatted="@{post}"/>
+            tools:text="@string/likes_post_example" />
 
         <TextView
             android:id="@+id/author_name"
@@ -62,9 +62,10 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="10dp"
+            android:lineSpacingExtra="2sp"
             android:text="@{post.description}"
             android:textColor="@color/black"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/likes_description"

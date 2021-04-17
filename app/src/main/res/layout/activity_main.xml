@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:minHeight="50dp"
-            app:backgroundTint="@color/white"
+            app:backgroundTint="@color/background_material_light"
             app:fabAlignmentMode="end"
             app:fabCradleRoundedCornerRadius="12dp"
             app:maxButtonHeight="50dp"

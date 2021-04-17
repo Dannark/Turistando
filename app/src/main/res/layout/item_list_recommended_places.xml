@@ -59,6 +59,7 @@
 
                 <TextView
                     android:id="@+id/city"
+                    placeCityString="@{rRlace}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
@@ -66,11 +67,11 @@
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    android:textStyle="bold"
-                    placeCityString="@{rRlace}"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/contry"
+                    placeContryFormatted="@{rRlace}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10sp"
@@ -78,8 +79,7 @@
                     android:text="Brazil - MG"
                     android:textAlignment="center"
                     android:textColor="@android:color/secondary_text_dark"
-                    android:textSize="14sp"
-                    placeContryFormatted="@{rRlace}"/>
+                    android:textSize="14sp" />
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

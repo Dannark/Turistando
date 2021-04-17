@@ -1,4 +1,4 @@
-package com.dannark.turistando.placedetails
+package com.dannark.turistando.ui.placedetails
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.dannark.turistando.databinding.FragmentPlaceDetailsBinding
+import com.dannark.turistando.viewmodels.PlaceDetailViewModel
 
 class PlaceDetailsFragment : Fragment() {
 
