@@ -17,62 +17,8 @@
         android:layout_height="wrap_content"
         android:paddingBottom="20dp">
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="50dp"
-            android:contentDescription="post image"
-            android:scaleType="centerCrop"
-            app:imageUrl="@{post.img}"
-            tools:src="@tools:sample/backgrounds/scenic"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/likes_description"
-            postsLikesFormatted="@{post}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/likeButton"
-            app:layout_constraintTop_toBottomOf="@+id/likeButton"
-            tools:text="@string/likes_post_example" />
-
-        <TextView
-            android:id="@+id/author_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="Username"
-            android:textAlignment="textEnd"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/cardView3"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/post_description"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="10dp"
-            android:lineSpacingExtra="2sp"
-            android:text="@{post.description}"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/likes_description"
-            tools:text="@string/lorem_ipsum_small" />
-
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardView3"
+            android:id="@+id/userCardView"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginStart="8dp"
@@ -83,36 +29,153 @@
 
             <ImageView
                 android:id="@+id/user_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/profile" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/user_image_context_description"
+                android:scaleType="fitXY"
+                app:imageUrl="@{post.user_img}"
+                app:srcCompat="@drawable/profile"
+                tools:srcCompat="@tools:sample/avatars" />
         </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView4"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/post_title">
+
+            <ImageView
+                android:id="@+id/post_img"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
+                app:imageUrl="@{post.img}"
+                tools:src="@tools:sample/backgrounds/scenic"
+                android:contentDescription="@string/card_image_context_description" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/likes_num"
+            postsLikesFormatted="@{post}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/likeButton"
+            app:layout_constraintStart_toEndOf="@+id/likeButton"
+            app:layout_constraintTop_toTopOf="@+id/likeButton"
+            tools:text="@string/likes_post_example" />
+
+        <TextView
+            android:id="@+id/author_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textAlignment="textEnd"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="@{post.first_name}"
+            app:layout_constraintStart_toEndOf="@+id/userCardView"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@tools:sample/first_names" />
+
+        <TextView
+            android:id="@+id/post_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="10dp"
+            android:lineSpacingExtra="2sp"
+            android:text="@{post.shortDescription}"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/likeButton"
+            tools:text="@string/lorem_ipsum_small" />
 
         <ImageButton
             android:id="@+id/likeButton"
+            style="@style/ImageAppearance.Icons"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="4dp"
             android:background="@android:color/transparent"
-            android:scaleType="fitXY"
-            android:tint="@color/black"
+            android:contentDescription="@string/like_button_context_description"
             android:onClick="@{() -> clickListener.onLikeClick(post)}"
+            android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3"
+            app:layout_constraintTop_toBottomOf="@+id/cardView4"
             app:srcCompat="@drawable/heart" />
 
         <ImageButton
+            android:id="@+id/commentButton"
+            style="@style/ImageAppearance.Icons"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="32dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/comment_button_context_description"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="@+id/likeButton"
+            app:layout_constraintStart_toStartOf="@+id/likes_num"
+            app:layout_constraintTop_toTopOf="@+id/likeButton"
+            app:srcCompat="@drawable/comments_white" />
+
+        <ImageButton
             android:id="@+id/shareButton"
+            style="@style/ImageAppearance.Icons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
             android:layout_marginEnd="10dp"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/share_button_context_description"
             android:onClick="@{() -> clickListener.onShareClick(post)}"
+            app:layout_constraintBottom_toBottomOf="@+id/likeButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3"
-            app:srcCompat="?attr/actionModeShareDrawable" />
+            app:layout_constraintTop_toTopOf="@+id/likeButton"
+            app:srcCompat="@drawable/outline_share_24" />
+
+        <TextView
+            android:id="@+id/post_title"
+            style="@style/TextAppearance.TitleMid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{post.shortTitle}"
+            app:layout_constraintStart_toStartOf="@+id/userCardView"
+            app:layout_constraintTop_toBottomOf="@+id/userCardView"
+            tools:text="Bom Jardin de Minas" />
+
+        <TextView
+            android:id="@+id/posted_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            timePastFormatted="@{post.creationDate}"
+            app:layout_constraintStart_toStartOf="@+id/author_name"
+            app:layout_constraintTop_toBottomOf="@+id/author_name"
+            tools:text="Posted 2 Month Ago" />
+
+
+        <TextView
+            android:id="@+id/comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="7"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/commentButton"
+            app:layout_constraintStart_toEndOf="@+id/commentButton"
+            app:layout_constraintTop_toTopOf="@+id/commentButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

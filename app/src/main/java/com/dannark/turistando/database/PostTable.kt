@@ -6,9 +6,10 @@ import androidx.room.PrimaryKey
 import com.dannark.turistando.domain.Post
 
 @Entity(tableName = "posts")
-data class PostDatabase (
+data class PostTable (
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "post_id")
     var postId: Long,
 
     @ColumnInfo(name = "creation_date")
@@ -31,9 +32,19 @@ data class PostDatabase (
 
     @ColumnInfo(name = "img")
     var img: String,
+
+    // Joins
+    @ColumnInfo(name = "first_name")
+    var first_name: String,
+
+    @ColumnInfo(name = "user_img")
+    var user_img: String,
+
+    @ColumnInfo(name = "country")
+    var country: String,
 )
 
-fun List<PostDatabase>.asDomainInModel(): List<Post>{
+fun List<PostTable>.asDomainInModel(): List<Post>{
     return map {
         Post(
             postId = it.postId,
@@ -43,7 +54,10 @@ fun List<PostDatabase>.asDomainInModel(): List<Post>{
             title = it.title,
             description = it.description,
             likes = it.likes,
-            img = it.img
+            img = it.img,
+            first_name = it.first_name,
+            user_img = it.user_img,
+            country = it.country,
         )
     }
 }

@@ -6,9 +6,10 @@ import androidx.room.PrimaryKey
 import com.dannark.turistando.domain.Place
 
 @Entity(tableName = "places")
-data class PlaceDatabase(
+data class PlaceTable(
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "place_id")
     var placeId: Long,
 
     @ColumnInfo(name = "creation_date")
@@ -29,8 +30,8 @@ data class PlaceDatabase(
     @ColumnInfo(name = "state")
     var state: String,
 
-    @ColumnInfo(name = "contry")
-    var contry: String,
+    @ColumnInfo(name = "country")
+    var country: String,
 
     @ColumnInfo(name = "description")
     var description: String,
@@ -49,7 +50,7 @@ data class PlaceDatabase(
     var bar: Boolean
 )
 
-fun List<PlaceDatabase>.asDomainInModel(): List<Place>{
+fun List<PlaceTable>.asDomainInModel(): List<Place>{
     return map{
         Place(
             placeId = it.placeId,
@@ -59,7 +60,7 @@ fun List<PlaceDatabase>.asDomainInModel(): List<Place>{
             placeName = it.placeName,
             city = it.city,
             state = it.state,
-            contry = it.contry,
+            country = it.country,
             description = it.description,
             img = it.img,
             swimpool = it.swimpool,

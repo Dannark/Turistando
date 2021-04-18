@@ -40,18 +40,28 @@ class PostsAdapter(val clickListener: PostsListener)
 
     override fun getItemViewType(position: Int): Int {
         return when(getItem(position)){
-            is DataItem.Header -> ITEM_VIEW_TYPE_HEADER
+            is DataItem.Ads -> ITEM_VIEW_TYPE_HEADER
             is DataItem.PostItem -> ITEM_VIEW_TYPE_ITEM
         }
     }
 
     fun addHeaderAndSubmitList(list: List<Post>){
+        val dataList = list.map { DataItem.PostItem(it) }
+        val newList = mutableListOf<DataItem>()
+
+        for ((i, value ) in dataList.withIndex()){
+            newList.add(value)
+            if (i % 10 == 0 && i != 0){
+                newList.add(DataItem.Ads)
+            }
+        }
+
         adapterScope.launch {
             val items = when(list){
-                null -> listOf(DataItem.Header)
-                else -> listOf(DataItem.Header) + list.map {DataItem.PostItem(it)}
+                null -> listOf(DataItem.Ads)
+                else -> newList//list.map { DataItem.PostItem(it) } + listOf(DataItem.Header)
             }
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.IO){
                 submitList(items)
             }
         }
@@ -106,7 +116,7 @@ sealed class DataItem {
     data class PostItem(val post: Post): DataItem(){
         override val id = post.postId
     }
-    object Header: DataItem(){
+    object Ads: DataItem(){
         override val id = Long.MIN_VALUE
     }
 
@@ -117,7 +127,7 @@ class TextViewHolder(view: View): RecyclerView.ViewHolder(view) {
     companion object {
         fun from(parent: ViewGroup): TextViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
-            val view = layoutInflater.inflate(R.layout.header_test, parent, false)
+            val view = layoutInflater.inflate(R.layout.item_list_ads, parent, false)
             return TextViewHolder(view)
         }
     }

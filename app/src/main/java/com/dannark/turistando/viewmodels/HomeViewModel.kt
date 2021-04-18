@@ -10,8 +10,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.dannark.turistando.database.TuristandoDatabase
 import com.dannark.turistando.domain.Place
+import com.dannark.turistando.domain.User
 import com.dannark.turistando.repository.PlacesRepository
 import com.dannark.turistando.repository.PostsRepository
+import com.dannark.turistando.repository.UsersRepository
 import kotlinx.coroutines.*
 
 
@@ -30,9 +32,12 @@ class HomeViewModel(val userId: Int, application: Application)
     private val database = TuristandoDatabase.getInstance(application)
     private val postsRepository = PostsRepository(database)
     private val placesRepository = PlacesRepository(database)
+    private val userRepository = UsersRepository(database)
 
     val places = placesRepository.places
     val posts = postsRepository.posts
+    val user : User?
+        get() = userRepository.users.value?.get(0)
 
     init {
         val cm = application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -43,6 +48,7 @@ class HomeViewModel(val userId: Int, application: Application)
             uiScope.launch {
                 postsRepository.refreshPosts()
                 placesRepository.refreshPlaces()
+                userRepository.refreshUsers()
             }
         }
         else{

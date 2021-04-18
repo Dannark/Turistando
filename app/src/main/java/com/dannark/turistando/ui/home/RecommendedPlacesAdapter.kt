@@ -24,7 +24,7 @@ class RecommendedPlacesAdapter(val clickListener: RecommendedPlaceListener):
     class ViewHolder private constructor(val binding: ItemListRecommendedPlacesBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(item: Place, clickListener: RecommendedPlaceListener) {
-            binding.rRlace = item
+            binding.rPlace = item
             binding.clickListener = clickListener
             binding.executePendingBindings()
         }

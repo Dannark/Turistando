@@ -1,31 +1,23 @@
 package com.dannark.turistando.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 
 @Dao
 interface UserDao {
     @Insert
-    fun insert (user: User)
+    fun insert (user: UserTable)
 
-    @Update
-    fun update(user: User)
+    @Query("SELECT * FROM users WHERE user_id = :key")
+    fun get(key: Long): UserTable
 
-    @Query("SELECT * FROM users WHERE userId = :key")
-    fun get(key: Long): User
+    //upsert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(vararg user: UserTable)
 
-    @Query("SELECT * FROM users ORDER BY userId DESC")
-    fun getAll(): LiveData<List<User>>
-
-    @Query("SELECT * FROM users ORDER BY userId DESC LIMIT 1")
-    fun getLast(): User?
-
-    @Delete
-    fun delete(user: User): Int
-
-    @Delete
-    fun deleteFromList(user: List<User>): Int
-
-    @Query("DELETE FROM users")
-    fun clear()
+    @Query("SELECT * FROM users")
+    fun getAll(): LiveData<List<UserTable>>
 }

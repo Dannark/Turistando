@@ -46,7 +46,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
-                            android:layout_marginTop="24dp"
+                            android:layout_marginTop="32dp"
                             android:layout_marginEnd="20dp"
                             android:background="@drawable/input"
                             android:drawableLeft="?android:attr/actionModeWebSearchDrawable"
@@ -75,7 +75,7 @@
                             android:id="@+id/tag_group"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="24dp"
+                            android:layout_marginTop="32dp"
                             android:orientation="horizontal"
                             app:layout_constraintStart_toStartOf="@+id/search_places"
                             app:layout_constraintTop_toBottomOf="@+id/search_places">
@@ -88,8 +88,7 @@
                                 android:layout_marginRight="10dp"
                                 android:layout_weight="0"
                                 android:clickable="true"
-                                android:fontFamily="@font/ubuntu"
-                                android:text="Recommended"
+                                android:text="@string/recommended"
                                 android:textAlignment="center"
                                 android:textColor="@color/black"
                                 android:textSize="18sp"
@@ -102,7 +101,7 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:layout_weight="0"
-                                android:text="Near"
+                                android:text="@string/near"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/darker_gray"
                                 android:textSize="18sp"
@@ -115,7 +114,7 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:layout_weight="0"
-                                android:text="Popular"
+                                android:text="@string/popular"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/darker_gray"
                                 android:textSize="18sp"
@@ -137,34 +136,22 @@
                             style="@style/TextAppearance.TitleBig"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Explore New Places!"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/explore_new_places"
                             app:layout_constraintStart_toStartOf="@+id/imageView7"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/textView3"
+                            android:id="@+id/friends_near_by"
+                            style="@style/TextAppearance.TitleMid"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="32dp"
-                            android:text="Your Friends Near By"
-                            style="@style/TextAppearance.TitleMid"
+                            android:text="@string/friends_near_by"
                             app:layout_constraintStart_toStartOf="@+id/search_places"
                             app:layout_constraintTop_toBottomOf="@+id/recommended_list" />
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/posts_list"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginBottom="96dp"
-                            android:nestedScrollingEnabled="false"
-                            android:orientation="vertical"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView3"
-                            tools:itemCount="6"
-                            tools:listitem="@layout/item_list_post"/>
+
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recommended_list"
@@ -178,6 +165,34 @@
                             app:layout_constraintTop_toBottomOf="@+id/tag_group"
                             tools:itemCount="6"
                             tools:listitem="@layout/item_list_recommended_places"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/friends_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintBottom_toTopOf="@+id/posts_list"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/friends_near_by"
+                            tools:listitem="@layout/item_list_friends" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/posts_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="32dp"
+                            android:nestedScrollingEnabled="false"
+                            android:orientation="vertical"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/friends_near_by"
+                            tools:itemCount="6"
+                            tools:listitem="@layout/item_list_post"/>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>

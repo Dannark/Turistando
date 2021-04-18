@@ -1,6 +1,6 @@
 package com.dannark.turistando.network
 
-import com.dannark.turistando.database.PlaceDatabase
+import com.dannark.turistando.database.PlaceTable
 import com.dannark.turistando.domain.Place
 import com.dannark.turistando.util.toBoolean
 import com.squareup.moshi.Json
@@ -8,6 +8,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class PlaceNetwork (
+    @Json(name = "place_id")
     var placeId: Long,
     @Json(name = "creation_date")
     var creationDate: Long,
@@ -19,7 +20,7 @@ data class PlaceNetwork (
     var placeName: String,
     var city: String,
     var state: String,
-    var contry: String,
+    var country: String,
     var description: String,
     var img: String,
     var swimpool: Int,
@@ -39,7 +40,7 @@ data class PlaceNetworkContainer(val places: List<PlaceNetwork>){
                 placeName = it.placeName,
                 city = it.city,
                 state = it.state,
-                contry = it.contry,
+                country = it.country,
                 description = it.description,
                 img = it.img,
                 swimpool = it.swimpool.toBoolean(),
@@ -49,9 +50,9 @@ data class PlaceNetworkContainer(val places: List<PlaceNetwork>){
         }
     }
 
-    fun asDatabaseModel(): Array<PlaceDatabase>{
+    fun asDatabaseModel(): Array<PlaceTable>{
         return places.map {
-            PlaceDatabase(
+            PlaceTable(
                 placeId = it.placeId,
                 creationDate = it.creationDate,
                 createdBy = it.createdBy,
@@ -59,7 +60,7 @@ data class PlaceNetworkContainer(val places: List<PlaceNetwork>){
                 placeName = it.placeName,
                 city = it.city,
                 state = it.state,
-                contry = it.contry,
+                country = it.country,
                 description = it.description,
                 img = it.img,
                 swimpool = it.swimpool.toBoolean(),

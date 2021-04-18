@@ -6,7 +6,21 @@
     <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="likes_post_example">Curtido por outras 178 pessoas</string>
+    <string name="likes_post_example">178</string>
+    <string name="posted_time_s">Posted %1$ss ago</string>
+    <string name="posted_time_m">Posted %1$sm ago</string>
+    <string name="posted_time_h">Posted %1$sh ago</string>
+    <string name="posted_time_d">Posted %1$sd ago</string>
     <string name="search">Search</string>
     <string name="notification">Notification</string>
+    <string name="friends_near_by">Your Friends Near By</string>
+    <string name="explore_new_places">Explore New Places!</string>
+    <string name="recommended">Recommended</string>
+    <string name="near">Near</string>
+    <string name="popular">Popular</string>
+    <string name="user_image_context_description">User Image</string>
+    <string name="card_image_context_description">Card Image</string>
+    <string name="like_button_context_description">Like Button</string>
+    <string name="share_button_context_description">Share Button</string>
+    <string name="comment_button_context_description">Comment Button</string>
 </resources>

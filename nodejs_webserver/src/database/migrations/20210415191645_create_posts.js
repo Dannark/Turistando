@@ -1,7 +1,7 @@
 
 exports.up = function (knex) {
     return knex.schema.createTable('posts', (t) => {
-        t.increments('postId')
+        t.increments('post_id')
         t.bigInteger('creation_date').notNullable();
         t.bigInteger('created_by').notNullable();
         t.bigInteger('last_update_date').notNullable();

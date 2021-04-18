@@ -34,8 +34,8 @@ interface PlaceDao {
 
     //upsert
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg places: PlaceDatabase)
+    fun insertAll(vararg places: PlaceTable)
 
-    @Query("SELECT * FROM places ORDER BY placeId DESC")
-    fun getAll(): LiveData<List<PlaceDatabase>>
+    @Query("SELECT * FROM places ORDER BY place_id DESC")
+    fun getAll(): LiveData<List<PlaceTable>>
 }

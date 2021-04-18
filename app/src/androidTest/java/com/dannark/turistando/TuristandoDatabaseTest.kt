@@ -42,7 +42,7 @@ class TuristandoDatabaseTest {
     @Test
     @Throws(Exception::class)
     fun insertAndGetPost(){
-        val post = PostDatabase(title = "post")
+        val post = PostTable(title = "post")
         postDao.insert(post)
         val lastPost = postDao.getLast()
         Assert.assertEquals("post", lastPost.title)
@@ -51,7 +51,7 @@ class TuristandoDatabaseTest {
     @Test
     @Throws(Exception::class)
     fun deleteLastPost(){
-        val post = PostDatabase()
+        val post = PostTable()
         postDao.insert(post)
 
         val lastPost = postDao.getLast()
@@ -64,7 +64,7 @@ class TuristandoDatabaseTest {
     @Test
     @Throws(Exception::class)
     fun insertAndGetPlace(){
-        val place = PlaceDatabase(city = "rio")
+        val place = PlaceTable(city = "rio")
         placeDao.insert(place)
         val lastPlace = placeDao.getLast()
         Assert.assertEquals("rio", lastPlace.city)
@@ -73,7 +73,7 @@ class TuristandoDatabaseTest {
     @Test
     @Throws(Exception::class)
     fun deleteLastPlace(){
-        placeDao.insert(PlaceDatabase())
+        placeDao.insert(PlaceTable())
         val lastPlace = placeDao.getLast()
         val deletedRowsCount = lastPlace.let { placeDao.delete(it) }
 
@@ -84,17 +84,17 @@ class TuristandoDatabaseTest {
     @Test
     @Throws(Exception::class)
     fun insertAndGetUser(){
-        userDao.insert(User(firstName = "user"))
+        userDao.insert(UserTable(firstName = "user"))
         val lastUser = userDao.getLast()
-        Assert.assertEquals(lastUser?.firstName, "user")
+        Assert.assertEquals(lastUser.firstName, "user")
     }
 
     @Test
     @Throws(Exception::class)
     fun deleteLastUser(){
-        userDao.insert(User())
+        userDao.insert(UserTable())
         val lastUser = userDao.getLast()
-        val deletedRowsCount = lastUser?.let { userDao.delete(it) }
+        val deletedRowsCount = lastUser.let { userDao.delete(it) }
 
         Assert.assertEquals(1, deletedRowsCount)
     }

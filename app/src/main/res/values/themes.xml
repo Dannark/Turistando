@@ -17,8 +17,8 @@
         <item name="android:navigationBarColor">@color/background_material_light</item>
 
         <!-- Default Properties -->
-        <item name="android:fontFamily">@font/pt_sans</item>
-        <item name="fontFamily">@font/pt_sans</item>
+<!--        <item name="android:fontFamily">@font/ubuntu</item>-->
+<!--        <item name="fontFamily">@font/ubuntu</item>-->
     </style>
     
     <style name="TextAppearance.TitleBig" parent="Widget.AppCompat.TextView">
@@ -32,5 +32,9 @@
     </style>
 
     <style name="TextAppearance.SubTitle" parent="Widget.AppCompat.TextView">
+    </style>
+
+    <style name="ImageAppearance.Icons" parent="Widget.AppCompat.ImageButton">
+        <item name="tint">@color/purple_700</item>
     </style>
 </resources>

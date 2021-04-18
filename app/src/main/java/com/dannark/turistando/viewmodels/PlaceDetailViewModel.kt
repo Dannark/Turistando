@@ -1,7 +1,6 @@
 package com.dannark.turistando.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,6 +14,5 @@ class PlaceDetailViewModel(place: Place, app: Application) : AndroidViewModel(ap
 
     init {
         _selectedPlace.value = place
-        Log.e("PlaceDetailVM","recebido placeName=${selectedPlaceDatabase.value!!.placeName} city=${selectedPlaceDatabase.value!!.city} img=${selectedPlaceDatabase.value!!.img}")
     }
 }

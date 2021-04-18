@@ -1,10 +1,7 @@
 package com.dannark.turistando.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface PostDao {
@@ -34,8 +31,11 @@ interface PostDao {
 
     //upsert
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg posts: PostDatabase)
+    fun insertAll(vararg posts: PostTable)
 
-    @Query("SELECT * FROM posts ORDER BY postId DESC")
-    fun getAll(): LiveData<List<PostDatabase>>
+    @Query("SELECT * FROM posts ORDER BY post_id DESC")
+    fun getAll(): LiveData<List<PostTable>>
+
+    @Delete
+    fun delete(vararg postDatabase: PostTable): Int
 }

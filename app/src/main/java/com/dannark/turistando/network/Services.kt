@@ -17,6 +17,10 @@ interface TuristandoServices{
     @GET("places")
     fun getPlaceList():
             Deferred<PlaceNetworkContainer>
+
+    @GET("users")
+    fun getUserList():
+            Deferred<UserNetworkContainer>
 }
 
 private val moshi = Moshi.Builder()

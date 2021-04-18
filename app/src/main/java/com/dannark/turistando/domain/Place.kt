@@ -13,7 +13,7 @@ data class Place (
     var placeName: String,
     var city: String,
     var state: String,
-    var contry: String,
+    var country: String,
     var description: String,
     var img: String,
     var swimpool: Boolean,
