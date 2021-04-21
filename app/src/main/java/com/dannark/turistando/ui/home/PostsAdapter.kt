@@ -1,6 +1,7 @@
 package com.dannark.turistando.home
 
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private const val ITEM_VIEW_TYPE_HEADER = 0
+private const val ITEM_VIEW_TYPE_ADS = 0
 private const val ITEM_VIEW_TYPE_ITEM = 1
 
 /**
@@ -31,17 +32,18 @@ class PostsAdapter(val clickListener: PostsListener)
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        Log.e("PostAdapter","onCreateViewHolder")
         return when(viewType) {
-            ITEM_VIEW_TYPE_HEADER -> TextViewHolder.from(parent)
             ITEM_VIEW_TYPE_ITEM -> ViewHolder.from(parent)
-            else -> throw ClassCastException("Unknown viewType ${viewType}")
+            ITEM_VIEW_TYPE_ADS -> TextViewHolder.from(parent)
+            else -> throw ClassCastException("Unknown viewType $viewType")
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         return when(getItem(position)){
-            is DataItem.Ads -> ITEM_VIEW_TYPE_HEADER
             is DataItem.PostItem -> ITEM_VIEW_TYPE_ITEM
+            is DataItem.Ads -> ITEM_VIEW_TYPE_ADS
         }
     }
 
@@ -61,20 +63,20 @@ class PostsAdapter(val clickListener: PostsListener)
                 null -> listOf(DataItem.Ads)
                 else -> newList//list.map { DataItem.PostItem(it) } + listOf(DataItem.Header)
             }
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.Main){
                 submitList(items)
             }
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        Log.e("PostAdapter","onBindViewHolder position= $position")
         when(holder){
             is ViewHolder -> {
                 val postItem = getItem(position) as DataItem.PostItem
                 holder.bind(postItem.post, clickListener)
             }
         }
-
     }
 
     class ViewHolder private constructor(val binding: ItemListPostBinding)
@@ -116,6 +118,7 @@ sealed class DataItem {
     data class PostItem(val post: Post): DataItem(){
         override val id = post.postId
     }
+
     object Ads: DataItem(){
         override val id = Long.MIN_VALUE
     }

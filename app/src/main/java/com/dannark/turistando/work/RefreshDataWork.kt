@@ -1,6 +1,7 @@
 package com.dannark.turistando.work
 
 import android.content.Context
+import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.dannark.turistando.database.TuristandoDatabase
@@ -19,6 +20,7 @@ class RefreshDataWork (appContext: Context, params: WorkerParameters):
         val repository = PostsRepository(database)
 
         return try {
+            Log.e("RereshDataWork","REFRESHING POST DATA ")
             repository.refreshPosts()
             Result.success()
         }catch (exception: HttpException){

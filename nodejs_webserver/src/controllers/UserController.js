@@ -17,8 +17,19 @@ module.exports = {
         const data = req.body
         const auth = req.headers.auth
 
+        const user = await connection('users').select('*')
+            .where({
+                'email': data.email,
+            }).first()
+
+        if (user != null) {
+            return res.status(401).json({ error: "The user is already exists" })
+        }
+
+
         const result = await connection('users').insert(data)
 
-        return res.json(data)
+        console.log("New user created")
+        return res.json(result)
     },
 }

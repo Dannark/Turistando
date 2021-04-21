@@ -11,8 +11,8 @@ import androidx.lifecycle.MutableLiveData
 import com.dannark.turistando.database.TuristandoDatabase
 import com.dannark.turistando.domain.Place
 import com.dannark.turistando.domain.User
+import com.dannark.turistando.repository.FriendsRepository
 import com.dannark.turistando.repository.PlacesRepository
-import com.dannark.turistando.repository.PostsRepository
 import com.dannark.turistando.repository.UsersRepository
 import kotlinx.coroutines.*
 
@@ -30,12 +30,14 @@ class HomeViewModel(val userId: Int, application: Application)
     private val uiScope = CoroutineScope(Dispatchers.Main +  viewModelJob)
 
     private val database = TuristandoDatabase.getInstance(application)
-    private val postsRepository = PostsRepository(database)
+
     private val placesRepository = PlacesRepository(database)
     private val userRepository = UsersRepository(database)
+    private val friendRepository = FriendsRepository(database)
 
     val places = placesRepository.places
-    val posts = postsRepository.posts
+    val friends = friendRepository.friends
+
     val user : User?
         get() = userRepository.users.value?.get(0)
 
@@ -46,9 +48,9 @@ class HomeViewModel(val userId: Int, application: Application)
 
         if (isConnected) {
             uiScope.launch {
-                postsRepository.refreshPosts()
                 placesRepository.refreshPlaces()
                 userRepository.refreshUsers()
+                friendRepository.refreshFriend()
             }
         }
         else{
@@ -67,8 +69,8 @@ class HomeViewModel(val userId: Int, application: Application)
         }
     }
 
-    private val _navigateToPlaceDetails = MutableLiveData<Place>()
-    val navigateToPlaceDetails: LiveData<Place>
+    private val _navigateToPlaceDetails = MutableLiveData<Place?>()
+    val navigateToPlaceDetails: LiveData<Place?>
         get() = _navigateToPlaceDetails
 
     fun displayPlaceDetails(place: Place){
@@ -78,5 +80,7 @@ class HomeViewModel(val userId: Int, application: Application)
     fun onPlaceDetailsCompleted(){
         _navigateToPlaceDetails.value = null
     }
+
+
 
 }

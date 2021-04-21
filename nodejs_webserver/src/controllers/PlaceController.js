@@ -29,6 +29,7 @@ module.exports = {
 
         await connection('places').delete().where('place_id', place_id)
 
+        console.log("New place created")
         return res.status(204).send()
     }
 }

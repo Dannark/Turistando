@@ -30,4 +30,8 @@
             app:popUpTo="@id/homeMenu"
             app:popUpToInclusive="false" />
     </fragment>
+    <fragment
+        android:id="@+id/postsMenu"
+        android:name="com.dannark.turistando.ui.posts.PostFragment"
+        android:label="PostFragment" />
 </navigation>

@@ -12,8 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.dannark.turistando.R
 import com.dannark.turistando.databinding.FragmentHomeBinding
-import com.dannark.turistando.home.PostsAdapter
-import com.dannark.turistando.home.PostsListener
 import com.dannark.turistando.home.RecommendedPlaceListener
 import com.dannark.turistando.home.RecommendedPlacesAdapter
 import com.dannark.turistando.viewmodels.HomeViewModel
@@ -21,6 +19,7 @@ import com.dannark.turistando.viewmodels.HomeViewModel
 class HomeFragment : Fragment() {
 
     private lateinit var viewModel: HomeViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -42,17 +41,12 @@ class HomeFragment : Fragment() {
         val placeAdapter = RecommendedPlacesAdapter(RecommendedPlaceListener {
             viewModel.displayPlaceDetails(it)
         })
-        binding.recommendedList.adapter = placeAdapter
-
-        val postAdapter = PostsAdapter(PostsListener{ postId, buttonId ->
-            if(buttonId == "share"){
-                Toast.makeText(context, "Deletando post ${postId}", Toast.LENGTH_SHORT).show()
-            }
-            else if(buttonId == "like"){
-                viewModel.likePost(postId)
-            }
+        val friendAdapter = FriendsAdapter(FriendClickListener {
+            Toast.makeText(context, "${it.lastName} não está online", Toast.LENGTH_SHORT).show()
         })
-        binding.postsList.adapter = postAdapter
+        binding.recommendedList.adapter = placeAdapter
+        binding.friendList.adapter = friendAdapter
+
 
         // Listeners
         viewModel.navigateToPlaceDetails.observe(viewLifecycleOwner, Observer { place ->
@@ -70,14 +64,14 @@ class HomeFragment : Fragment() {
                 placeAdapter.submitList(it)
             }
         })
-
-        viewModel.posts.observe(viewLifecycleOwner, {
+        viewModel.friends.observe(viewLifecycleOwner, Observer {
             it?.let {
-                postAdapter.addHeaderAndSubmitList(it)
+                friendAdapter.submitList(it)
             }
         })
 
         return binding.root
-        //return inflater.inflate(R.layout.fragment_title, container, false)
     }
+
+
 }

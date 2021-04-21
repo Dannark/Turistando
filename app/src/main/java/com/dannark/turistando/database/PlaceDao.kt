@@ -1,10 +1,7 @@
 package com.dannark.turistando.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface PlaceDao {
@@ -38,4 +35,7 @@ interface PlaceDao {
 
     @Query("SELECT * FROM places ORDER BY place_id DESC")
     fun getAll(): LiveData<List<PlaceTable>>
+
+    @Delete
+    fun delete(vararg placeDatabase: PlaceTable): Int
 }

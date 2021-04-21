@@ -1,6 +1,7 @@
 package com.dannark.turistando.domain
 
 import android.os.Parcelable
+import com.dannark.turistando.database.PlaceTable
 import com.dannark.turistando.util.smartTruncate
 import kotlinx.android.parcel.Parcelize
 
@@ -23,4 +24,22 @@ data class Place (
 
     val shortDescription: String
     get() = description.smartTruncate(200)
+
+    fun asTableModel(): PlaceTable {
+        return PlaceTable(
+                placeId = placeId,
+                creationDate = creationDate,
+                createdBy = createdBy,
+                lastUpdateDate = lastUpdateDate,
+                placeName = placeName,
+                city = city,
+                state = state,
+                country = country,
+                description = description,
+                img = img,
+                swimpool = swimpool,
+                buffet = buffet,
+                bar = bar
+        )
+    }
 }

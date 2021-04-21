@@ -35,6 +35,7 @@ class PostsRepository (private val database: TuristandoDatabase){
 
     // Data Structured function to find missing values between two lists
     fun findDiff(arr1: Array<PostTable>, arr2: Array<Post>): Array<PostTable>{
+        Log.e("PostsRepository","Post list size = ${arr1.size}")
         val found = hashMapOf<Int, Int>()
         val missing = mutableListOf<PostTable>()
 

@@ -3,6 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.dannark.turistando.viewmodels.MainViewModel" />
+    </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,29 +23,13 @@
             app:defaultNavHost="true"
             tools:layout="@layout/fragment_home" />
 
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bottomAppBar"
-            style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:menu="@menu/menu"
             android:layout_gravity="bottom"
-            android:minHeight="50dp"
-            app:backgroundTint="@color/background_material_light"
-            app:fabAlignmentMode="end"
-            app:fabCradleRoundedCornerRadius="12dp"
-            app:maxButtonHeight="50dp"
-            app:menu="@menu/navdrawer_menu">
-
-
-        </com.google.android.material.bottomappbar.BottomAppBar>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:backgroundTint="@color/purple_500"
-            app:layout_anchor="@id/bottomAppBar"
-            app:srcCompat="@drawable/ic_add_24dp"
-            app:tint="@android:color/white" />
+            app:backgroundTint="@color/background_material_light"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 

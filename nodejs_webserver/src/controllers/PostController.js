@@ -31,6 +31,7 @@ module.exports = {
 
         await connection('posts').delete().where('post_id', post_id)
 
+        console.log("New post created")
         return res.status(204).send()
     }
 }

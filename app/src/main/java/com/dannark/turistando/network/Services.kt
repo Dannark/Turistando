@@ -7,6 +7,7 @@ import kotlinx.coroutines.Deferred
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface TuristandoServices{
 
@@ -21,6 +22,10 @@ interface TuristandoServices{
     @GET("users")
     fun getUserList():
             Deferred<UserNetworkContainer>
+
+    @GET("friends/{id}")
+    fun getFriendList(@Path("id") id: Long):
+            Deferred<FriendNetworkContainer>
 }
 
 private val moshi = Moshi.Builder()

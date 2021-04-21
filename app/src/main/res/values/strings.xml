@@ -23,4 +23,5 @@
     <string name="like_button_context_description">Like Button</string>
     <string name="share_button_context_description">Share Button</string>
     <string name="comment_button_context_description">Comment Button</string>
+    <string name="posts">Posts</string>
 </resources>

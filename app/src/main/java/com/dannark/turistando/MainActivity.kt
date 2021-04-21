@@ -5,8 +5,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import androidx.work.*
 import com.dannark.turistando.databinding.ActivityMainBinding
+import com.dannark.turistando.viewmodels.MainViewModel
 import com.dannark.turistando.work.RefreshDataWork
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,14 +19,26 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var viewModel : MainViewModel
     private val applicationScope = CoroutineScope(Dispatchers.IO)
 
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         showSystemUI()
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        binding.viewModel = viewModel
+
+//        binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
+//            item.onNavDestinationSelected(
+//                    findNavController(R.id.myNavHostFragment)
+//            )
+//        }
+
+        val navController = Navigation.findNavController(this, R.id.myNavHostFragment)
+        NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
 
         delayedInit()
     }
