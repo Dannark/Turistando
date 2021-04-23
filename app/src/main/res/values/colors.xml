@@ -10,4 +10,6 @@
     <color name="light_gray">#EDEDED</color>
     <color name="dark_gray">#404040</color>
     <color name="description_text">#A5A5A5</color>
+    <color name="statusBarColor">#40FFFFFF</color>
+    <color name="transparent">#00000000</color>
 </resources>

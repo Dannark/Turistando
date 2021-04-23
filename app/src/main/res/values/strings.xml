@@ -14,7 +14,7 @@
     <string name="search">Search</string>
     <string name="notification">Notification</string>
     <string name="friends_near_by">Your Friends Near By</string>
-    <string name="explore_new_places">Explore New Places!</string>
+    <string name="explore_new_places">Explore Rio de Janeiro!</string>
     <string name="recommended">Recommended</string>
     <string name="near">Near</string>
     <string name="popular">Popular</string>
@@ -23,5 +23,11 @@
     <string name="like_button_context_description">Like Button</string>
     <string name="share_button_context_description">Share Button</string>
     <string name="comment_button_context_description">Comment Button</string>
-    <string name="posts">Posts</string>
+    <string name="user_profile_picture">User profile picture</string>
+    <string name="search_suggestion_hint">Search email</string>
+
+    <!--PlaceFragment-->
+    <string name="place_card_transition_name">place_card_%1$s</string>
+    <string name="place_card_detail_transition_name">place_card_detail</string>
+    <string name="explore">Explore</string>
 </resources>

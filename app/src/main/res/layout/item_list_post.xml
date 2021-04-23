@@ -15,92 +15,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:paddingBottom="20dp">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/userCardView"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
-            app:cardCornerRadius="50dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/user_img"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/user_image_context_description"
-                android:scaleType="fitXY"
-                app:imageUrl="@{post.user_img}"
-                app:srcCompat="@drawable/profile"
-                tools:srcCompat="@tools:sample/avatars" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView4"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_margin="8dp"
-            android:layout_marginTop="8dp"
-            app:cardCornerRadius="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userCardView">
-
-            <ImageView
-                android:id="@+id/post_img"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:contentDescription="@string/card_image_context_description"
-                android:scaleType="centerCrop"
-                app:imageUrl="@{post.img}"
-                tools:src="@tools:sample/backgrounds/scenic" />
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/likes_num"
-            postsLikesFormatted="@{post}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/likeButton"
-            app:layout_constraintStart_toEndOf="@+id/likeButton"
-            app:layout_constraintTop_toTopOf="@+id/likeButton"
-            tools:text="@string/likes_post_example" />
-
-        <TextView
-            android:id="@+id/author_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:textAlignment="textEnd"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:text="@{post.first_name}"
-            app:layout_constraintStart_toEndOf="@+id/userCardView"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@tools:sample/first_names" />
-
-        <TextView
-            android:id="@+id/post_description"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="10dp"
-            android:lineSpacingExtra="2sp"
-            android:text="@{post.shortDescription}"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/likeButton"
-            tools:text="@string/lorem_ipsum_small" />
 
         <ImageButton
             android:id="@+id/likeButton"
@@ -114,7 +30,7 @@
             android:onClick="@{() -> clickListener.onLikeClick(post)}"
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView4"
+            app:layout_constraintTop_toBottomOf="@+id/img_card"
             app:srcCompat="@drawable/heart" />
 
         <ImageButton
@@ -145,16 +61,73 @@
             app:layout_constraintTop_toTopOf="@+id/likeButton"
             app:srcCompat="@drawable/outline_share_24" />
 
+        <ImageView
+            android:id="@+id/img_card"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_margin="8dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/card_image_context_description"
+            android:scaleType="centerCrop"
+            app:glideRoundingRadius="@{20}"
+            app:imageUrl="@{post.img}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userCardView"
+            tools:src="@tools:sample/backgrounds/scenic" />
+
+        <TextView
+            android:id="@+id/likes_num"
+            postsLikesFormatted="@{post}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/likeButton"
+            app:layout_constraintStart_toEndOf="@+id/likeButton"
+            app:layout_constraintTop_toTopOf="@+id/likeButton"
+            tools:text="@string/likes_post_example" />
+
+        <TextView
+            android:id="@+id/author_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@{post.first_name}"
+            android:textAlignment="textEnd"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/userCardView"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@tools:sample/first_names" />
+
+        <TextView
+            android:id="@+id/post_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="10dp"
+            android:lineSpacingExtra="2sp"
+            android:text="@{post.shortDescription}"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/likeButton"
+            tools:text="@string/lorem_ipsum_small" />
+
         <TextView
             android:id="@+id/posted_date"
+            timePastFormatted="@{post.creationDate}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            timePastFormatted="@{post.creationDate}"
             app:layout_constraintStart_toStartOf="@+id/author_name"
             app:layout_constraintTop_toBottomOf="@+id/author_name"
             tools:text="Posted 2 Month Ago" />
-
 
         <TextView
             android:id="@+id/comments"
@@ -166,6 +139,30 @@
             app:layout_constraintBottom_toBottomOf="@+id/commentButton"
             app:layout_constraintStart_toEndOf="@+id/commentButton"
             app:layout_constraintTop_toTopOf="@+id/commentButton" />
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/userCardView"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            app:cardCornerRadius="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/user_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/user_image_context_description"
+                android:scaleType="fitXY"
+                app:glideCenterCrop="@{true}"
+                app:glideCircularCrop="@{true}"
+                app:imageUrl="@{post.user_img}"
+                app:srcCompat="@drawable/profile"
+                tools:srcCompat="@tools:sample/avatars" />
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

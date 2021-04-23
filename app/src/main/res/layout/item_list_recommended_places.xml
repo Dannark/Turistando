@@ -23,6 +23,8 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:clickable="true"
+            android:transitionName="@{@string/place_card_transition_name(rPlace.placeId)}"
+            android:onClick="@{(view) -> clickListener.onClick(view, rPlace)}"
             app:cardCornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -36,8 +38,8 @@
                 android:foreground="@drawable/button"
                 android:scaleType="centerCrop"
                 tools:srcCompat="@tools:sample/backgrounds/scenic"
-                android:onClick="@{() -> clickListener.onClick(rPlace)}"
-                app:imageUrl="@{rPlace.img}"/>
+                app:imageUrl="@{rPlace.img}"
+                app:glideRoundingRadius="@{30}"/>
 
             <ImageView
                 android:id="@+id/gradient_bottom"

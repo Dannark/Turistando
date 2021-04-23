@@ -12,7 +12,9 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layoutFullscreen="@{true}"
+        tools:context=".MainActivity">
 
         <fragment
             android:id="@+id/myNavHostFragment"
@@ -21,7 +23,7 @@
             android:layout_height="match_parent"
             app:navGraph="@navigation/navigation"
             app:defaultNavHost="true"
-            tools:layout="@layout/fragment_home" />
+            tools:layout="@layout/fragment_explore" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"

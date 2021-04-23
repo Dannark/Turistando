@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation"
-    app:startDestination="@id/homeMenu">
+    app:startDestination="@id/postFragment">
 
     <fragment
-        android:id="@+id/homeMenu"
-        android:name="com.dannark.turistando.ui.home.HomeFragment"
-        android:label="HomeFragment" >
+        android:id="@+id/exploreFragment"
+        android:name="com.dannark.turistando.ui.home.ExploreFragment"
+        android:label="ExploreFragment">
         <action
-            android:id="@+id/action_homeFragment_to_placeDetailsFragment"
-            app:destination="@id/placeDetailsFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_left" />
+            android:id="@+id/action_exploreMenu_to_placeDetailsFragment"
+            app:destination="@id/placeDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/placeDetailsFragment"
@@ -24,14 +20,28 @@
             app:argType="com.dannark.turistando.domain.Place" />
         <action
             android:id="@+id/action_placeDetailsFragment_to_homeFragment"
-            app:destination="@id/homeMenu"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/homeMenu"
-            app:popUpToInclusive="false" />
+            app:destination="@id/exploreFragment"
+            app:popUpTo="@id/exploreFragment"/>
     </fragment>
     <fragment
-        android:id="@+id/postsMenu"
+        android:id="@+id/postFragment"
         android:name="com.dannark.turistando.ui.posts.PostFragment"
         android:label="PostFragment" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.dannark.turistando.ui.search.SearchFragment"
+        android:label="SearchFragment" />
+    <action
+        android:id="@+id/action_global_postsFragment"
+        app:destination="@id/postFragment"
+        app:launchSingleTop="true"/>
+    <action
+        android:id="@+id/action_global_exploreFragment"
+        app:destination="@id/exploreFragment"
+        app:popUpToInclusive="true"
+        app:launchSingleTop="true" />
+    <action
+        android:id="@+id/action_global_searchFragment"
+        app:destination="@id/searchFragment"
+        app:launchSingleTop="true"/>
 </navigation>
