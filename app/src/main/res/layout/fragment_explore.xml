@@ -6,7 +6,7 @@
     <data>
         <variable
             name="homeViewModel"
-            type="com.dannark.turistando.viewmodels.HomeViewModel" />
+            type="com.dannark.turistando.viewmodels.ExploreViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -162,7 +162,7 @@
                         android:layout_height="match_parent">
 
                         <com.google.android.material.chip.Chip
-                            android:id="@+id/chip4"
+                            android:id="@+id/chip4_all"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Praias"
@@ -170,7 +170,7 @@
                             app:chipBackgroundColor="@color/transparent" />
 
                         <com.google.android.material.chip.Chip
-                            android:id="@+id/chip5"
+                            android:id="@+id/chip_supermarket"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Nativos"
@@ -178,7 +178,7 @@
                             app:chipBackgroundColor="@color/transparent" />
 
                         <com.google.android.material.chip.Chip
-                            android:id="@+id/chip6"
+                            android:id="@+id/chip_food"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Crianças"
@@ -186,7 +186,7 @@
                             app:chipBackgroundColor="@color/transparent" />
 
                         <com.google.android.material.chip.Chip
-                            android:id="@+id/chip7"
+                            android:id="@+id/chip_store"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Arte e cultura"
@@ -194,7 +194,7 @@
                             app:chipBackgroundColor="@color/transparent" />
 
                         <com.google.android.material.chip.Chip
-                            android:id="@+id/chip8"
+                            android:id="@+id/chip_establishment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Museu"
@@ -202,7 +202,7 @@
                             app:chipBackgroundColor="@color/transparent" />
 
                         <com.google.android.material.chip.Chip
-                            android:id="@+id/chip9"
+                            android:id="@+id/chip_point_of_interest"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Historia"

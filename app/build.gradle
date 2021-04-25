@@ -75,4 +75,7 @@ dependencies {
 
     // WorkManager
     implementation "android.arch.work:work-runtime-ktx:$version_work"
+
+    // Places
+    implementation 'com.google.android.libraries.places:places:2.4.0'
 }

@@ -1,4 +1,4 @@
-package com.dannark.turistando.ui.home
+package com.dannark.turistando.ui.explore
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,17 +16,16 @@ import com.dannark.turistando.R
 import com.dannark.turistando.databinding.FragmentExploreBinding
 import com.dannark.turistando.home.RecommendedPlaceListener
 import com.dannark.turistando.home.RecommendedPlacesAdapter
-import com.dannark.turistando.viewmodels.HomeViewModel
+import com.dannark.turistando.viewmodels.ExploreViewModel
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 
 class ExploreFragment : Fragment() {
 
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var viewModel: ExploreViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
             duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
         }
@@ -44,9 +43,9 @@ class ExploreFragment : Fragment() {
 
         val application = requireNotNull(this.activity).application
         val userId = 1
-        val viewModelFactory = HomeViewModelFactory(userId, application)
+        val viewModelFactory = ExploreViewModelFactory(userId, application)
 
-        viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(ExploreViewModel::class.java)
 
         // Set XML to access function and variables directly from the View Model
         binding.homeViewModel = viewModel
@@ -88,4 +87,6 @@ class ExploreFragment : Fragment() {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
     }
+
+
 }

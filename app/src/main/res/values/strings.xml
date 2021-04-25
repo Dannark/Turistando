@@ -2,7 +2,7 @@
     <string name="app_name">Turistando</string>
     <string name="home">Home</string>
     <string name="profile">Profile</string>
-    <string name="lorem_ipsum_small">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s...</string>
+    <string name="lorem_ipsum_small">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s…</string>
     <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -24,10 +24,19 @@
     <string name="share_button_context_description">Share Button</string>
     <string name="comment_button_context_description">Comment Button</string>
     <string name="user_profile_picture">User profile picture</string>
-    <string name="search_suggestion_hint">Search email</string>
+    <string name="search_suggestion_hint">Search places</string>
 
     <!--PlaceFragment-->
     <string name="place_card_transition_name">place_card_%1$s</string>
     <string name="place_card_detail_transition_name">place_card_detail</string>
     <string name="explore">Explore</string>
+    <string name="speak_microphone_button">Speak Microphone Button</string>
+    <string name="previous">PREVIOUS</string>
+    <string name="supermarket">Supermarket</string>
+    <string name="food">Food</string>
+    <string name="store">Store</string>
+    <string name="establishment">Establishment</string>
+    <string name="only_in_brazil">Only in Brazil</string>
+    <string name="hotel">Hotel</string>
+    <string name="beach">Beach</string>
 </resources>

@@ -37,4 +37,5 @@
     <style name="ImageAppearance.Icons" parent="Widget.AppCompat.ImageButton">
         <item name="tint">@color/black</item>
     </style>
+
 </resources>

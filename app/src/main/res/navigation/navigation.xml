@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/exploreFragment"
-        android:name="com.dannark.turistando.ui.home.ExploreFragment"
+        android:name="com.dannark.turistando.ui.explore.ExploreFragment"
         android:label="ExploreFragment">
         <action
             android:id="@+id/action_exploreMenu_to_placeDetailsFragment"

@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.dannark.turistando.viewmodels.SearchViewModel" />
+        <variable
+            name="type"
+            type="com.google.android.libraries.places.api.model.TypeFilter" />
     </data>
 
     <LinearLayout
@@ -15,7 +21,7 @@
         app:paddingTopSystemWindowInsets="@{true}">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/search_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipChildren="false"
@@ -31,13 +37,15 @@
                 android:orientation="horizontal">
 
                 <EditText
+                    android:id="@+id/search_field"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="@string/search_suggestion_hint"
                     android:imeOptions="flagNoExtractUi|actionSearch"
-                    android:inputType="textNoSuggestions" />
+                    android:inputType="text|textNoSuggestions"
+                    android:importantForAutofill="no" />
 
                 <ImageButton
                     android:id="@+id/imageButton"
@@ -45,7 +53,8 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/actionBarItemBackground"
                     android:padding="16dp"
-                    android:src="@drawable/ic_mic" />
+                    android:src="@drawable/ic_mic"
+                    android:contentDescription="@string/speak_microphone_button" />
 
             </LinearLayout>
 
@@ -62,63 +71,87 @@
             android:id="@+id/horizontalScrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clipToPadding="false"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
-            android:clipToPadding="false"
-            android:scrollbars="none">
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Praias" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nativos" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Crianças" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Arte e cultura" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Museu" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Historia" />
-        </com.google.android.material.chip.ChipGroup>
-    </HorizontalScrollView>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:scrollbars="none">
 
-            <LinearLayout
-                android:id="@+id/search_suggestion_container"
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        </ScrollView>
+                app:singleLine="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/only_in_brazil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="true"
+                    android:enabled="false"
+                    android:text="@string/only_in_brazil"
+                    app:chipBackgroundColor="@color/light_gray" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_supermarket"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/supermarket"
+                    android:onClick='@{() -> viewModel.requestSearch( @string/supermarket )}'
+                    app:chipBackgroundColor="@color/light_gray" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_food"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/food"
+                    android:onClick='@{() -> viewModel.requestSearch( @string/food )}'
+                    app:chipBackgroundColor="@color/light_gray" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_store"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/store"
+                    android:onClick='@{() -> viewModel.requestSearch( @string/store )}'
+                    app:chipBackgroundColor="@color/light_gray" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_hotel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hotel"
+                    android:onClick='@{() -> viewModel.requestSearch( @string/hotel )}'
+                    app:chipBackgroundColor="@color/light_gray" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_beach"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/beach"
+                    android:onClick='@{() -> viewModel.requestSearch( @string/beach )}'
+                    app:chipBackgroundColor="@color/light_gray" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_establishment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/establishment"
+                    android:onClick='@{() -> viewModel.requestSearch( @string/establishment )}'
+                    app:chipBackgroundColor="@color/light_gray" />
+
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:scrollbars="none"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_list_search_suggestion" />
+
     </LinearLayout>
 </layout>

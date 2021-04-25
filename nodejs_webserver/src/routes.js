@@ -1,5 +1,6 @@
 const express = require('express')
 const postController = require('./controllers/PostController')
+const indexController = require('./controllers/IndexController')
 const placeController = require('./controllers/PlaceController')
 const userController = require('./controllers/UserController')
 const friendController = require('./controllers/FriendsController')
@@ -22,5 +23,7 @@ routes.post('/friends', friendController.create)
 routes.get('/friends', friendController.index)
 routes.get('/friends/:user_id', friendController.my_friends)
 routes.post('/friends/accept', friendController.acceptFriendRequest)
+
+routes.get('/', indexController.index)
 
 module.exports = routes
