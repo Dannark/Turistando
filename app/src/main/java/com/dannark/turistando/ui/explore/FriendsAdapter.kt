@@ -1,4 +1,4 @@
-package com.dannark.turistando.ui.home
+package com.dannark.turistando.ui.explore
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

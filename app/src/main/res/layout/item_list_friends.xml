@@ -9,7 +9,7 @@
             type="com.dannark.turistando.domain.Friend" />
         <variable
             name="clickListener"
-            type="com.dannark.turistando.ui.home.FriendClickListener" />
+            type="com.dannark.turistando.ui.explore.FriendClickListener" />
     </data>
 
     <LinearLayout

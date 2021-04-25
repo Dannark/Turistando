@@ -9,6 +9,9 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 
+const val PRD_URL = "http://ec2-18-224-184-195.us-east-2.compute.amazonaws.com:3335/"
+const val DEV_URL = "http://192.168.0.127:3335/"
+
 interface TuristandoServices{
 
     @GET("posts")
@@ -34,7 +37,7 @@ private val moshi = Moshi.Builder()
 
 object Network{
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://192.168.0.127:3333/")
+        .baseUrl(PRD_URL)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()

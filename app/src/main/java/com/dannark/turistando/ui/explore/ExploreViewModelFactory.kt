@@ -1,18 +1,18 @@
-package com.dannark.turistando.ui.home
+package com.dannark.turistando.ui.explore
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.dannark.turistando.viewmodels.HomeViewModel
+import com.dannark.turistando.viewmodels.ExploreViewModel
 
-class HomeViewModelFactory (
+class ExploreViewModelFactory (
     private val userId: Int,
     private val application: Application
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
-            return HomeViewModel(userId, application) as T
+        if (modelClass.isAssignableFrom(ExploreViewModel::class.java)) {
+            return ExploreViewModel(userId, application) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

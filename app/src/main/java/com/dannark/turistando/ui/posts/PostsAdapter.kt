@@ -1,7 +1,6 @@
 package com.dannark.turistando.home
 
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +31,6 @@ class PostsAdapter(val clickListener: PostsListener)
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        Log.e("PostAdapter","onCreateViewHolder")
         return when(viewType) {
             ITEM_VIEW_TYPE_ITEM -> ViewHolder.from(parent)
             ITEM_VIEW_TYPE_ADS -> TextViewHolder.from(parent)
@@ -70,7 +68,6 @@ class PostsAdapter(val clickListener: PostsListener)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        Log.e("PostAdapter","onBindViewHolder position= $position")
         when(holder){
             is ViewHolder -> {
                 val postItem = getItem(position) as DataItem.PostItem

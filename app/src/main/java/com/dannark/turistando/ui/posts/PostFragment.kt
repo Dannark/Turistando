@@ -7,14 +7,29 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.dannark.turistando.R
 import com.dannark.turistando.databinding.FragmentPostBinding
 import com.dannark.turistando.home.PostsAdapter
 import com.dannark.turistando.home.PostsListener
-import com.google.android.material.transition.MaterialFadeThrough
+import com.dannark.turistando.viewmodels.PostViewModel
+import com.google.android.material.transition.MaterialSharedAxis
 
 class PostFragment : Fragment() {
 
     private lateinit var viewModel: PostViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+        }
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+        }
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -23,10 +38,6 @@ class PostFragment : Fragment() {
         binding.lifecycleOwner = this
 
         viewModel = ViewModelProvider(this).get(PostViewModel::class.java)
-
-        enterTransition = MaterialFadeThrough()
-        exitTransition = MaterialFadeThrough()
-
         // Set XML to access function and variables directly from the View Model
         binding.viewModel = viewModel
 
