@@ -20,7 +20,7 @@ import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 class PlacesApi(applicationContext:Context) {
     private val TAG = "PlacesApi"
 
-    private val apiKey = "AIzaSyAUgViw6lUnZa2UPG04n2MELwLIrxvXOM8"
+    private val apiKey = ""
     private val placesClient = Places.initialize(applicationContext, apiKey).run {
         Places.createClient(applicationContext)
     }
