@@ -2,7 +2,6 @@ package com.dannark.turistando.viewmodels
 
 import android.app.Activity
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import com.dannark.turistando.api.PlacesApi
 import com.dannark.turistando.repository.SearchRepository
@@ -15,18 +14,17 @@ class SearchViewModel(application:Application, activity: Activity): AndroidViewM
     private var viewModelJob = SupervisorJob()
     private val uiScope = CoroutineScope(Dispatchers.Main +  viewModelJob)
 
-    private val placeApi = PlacesApi(application)
+    private val placeApi = PlacesApi.getInstance(application)
     private val searchRepository = SearchRepository(placeApi)
 
     val suggestions = searchRepository.suggestions
 
     init {
-        placeApi.getLocationsNeayBy(application, activity)
+        //placeApi.getLocationsNeayBy(application, activity)
     }
 
     fun requestSearch(typedText: String){
         uiScope.launch {
-            Log.e("test","$typedText")
             searchRepository.refreshSearch(typedText)
         }
     }
