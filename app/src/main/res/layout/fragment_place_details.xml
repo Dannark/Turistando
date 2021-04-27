@@ -328,10 +328,11 @@
                         android:layout_marginStart="4dp"
                         android:layout_marginTop="9dp"
                         android:fontFamily="@font/pt_sans"
-                        android:text="(173) Reviews"
+                        android:text="@{@string/total_reviews(viewModel.selectedPlaceDatabase.userRatingsTotal)}"
                         android:textSize="12sp"
                         app:layout_constraintStart_toEndOf="@+id/start_img"
-                        app:layout_constraintTop_toBottomOf="@+id/placeName" />
+                        app:layout_constraintTop_toBottomOf="@+id/placeName"
+                        tools:text="@string/total_reviews" />
 
                     <TextView
                         android:id="@+id/stars"
@@ -339,7 +340,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:fontFamily="@font/pt_sans"
-                        android:text="4.3"
+                        android:text="@{viewModel.selectedPlaceDatabase.rating.toString()}"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="@+id/placeName"
                         app:layout_constraintTop_toBottomOf="@+id/placeName" />

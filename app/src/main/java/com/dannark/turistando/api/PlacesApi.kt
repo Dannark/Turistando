@@ -4,20 +4,21 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.dannark.turistando.R
+import com.dannark.turistando.database.PlaceNearByTable
 import com.dannark.turistando.util.SingletonHolder
+import com.dannark.turistando.util.toLongSum
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.*
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
+import com.google.android.libraries.places.api.net.*
 
 class PlacesApi private constructor(applicationContext:Context) {
     private val TAG = "PlacesApi"
@@ -59,6 +60,7 @@ class PlacesApi private constructor(applicationContext:Context) {
                     Log.e("test", "${prediction.getPrimaryText(null)} # ${prediction.getSecondaryText(null)} # ${prediction.placeTypes} # ${prediction.distanceMeters}")
                 }
 
+
             }.addOnFailureListener { exception: Exception? ->
                 if (exception is ApiException) {
                     Log.e("test", "Place not found. StatusCode: " + exception.statusCode)
@@ -66,19 +68,35 @@ class PlacesApi private constructor(applicationContext:Context) {
             }
     }
 
-    fun getLocationsNeayBy(context:Context, activity: Activity){
-        val placeFields: List<Place.Field> = listOf(Place.Field.NAME, Place.Field.RATING, Place.Field.ADDRESS)
+    fun getLocationsNeayBy(activity: Activity, callback: (places: List<Place>) -> Unit){
+        Log.e(TAG, "getLocationsNeayBy")
+        val placeFields: List<Place.Field> = listOf(
+                Place.Field.ID,
+                Place.Field.NAME,
+                Place.Field.RATING,
+                Place.Field.USER_RATINGS_TOTAL,
+                Place.Field.PRICE_LEVEL,
+                Place.Field.BUSINESS_STATUS,
+                Place.Field.ADDRESS,
+                Place.Field.PHOTO_METADATAS)
         val request: FindCurrentPlaceRequest = FindCurrentPlaceRequest.newInstance(placeFields)
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) ==
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED) {
 
             val placeResponse = placesClient.findCurrentPlace(request)
             placeResponse.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val response = task.result
+
+                    val list = mutableListOf<Place>()
                     for (placeLikelihood: PlaceLikelihood in response?.placeLikelihoods ?: emptyList()) {
-                        Log.i(TAG,"Place '${placeLikelihood.place.name}' (${placeLikelihood.place.rating}) ${placeLikelihood.place.address} has likelihood: ${placeLikelihood.likelihood}")
+                        if(placeLikelihood.place.photoMetadatas != null) {
+                            list.add(placeLikelihood.place)
+                        }
+                        Log.i(TAG,"Place '${placeLikelihood.place.name}' (${placeLikelihood.place.addressComponents}) has likelihood: ${placeLikelihood.likelihood}")
+
                     }
+                    callback(list)
                 } else {
                     val exception = task.exception
                     if (exception is ApiException) {
@@ -87,11 +105,65 @@ class PlacesApi private constructor(applicationContext:Context) {
                 }
             }
         } else {
-            // A local method to request required permissions;
-            // See https://developer.android.com/training/permissions/requesting
             requestPermissions(activity,
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     1)
         }
     }
+
+    fun getPhoto(placeId: String, callback: (bitMap: Bitmap) -> Unit) {
+        val fields = listOf(Place.Field.PHOTO_METADATAS)
+        val placeRequest = FetchPlaceRequest.newInstance(placeId, fields)
+
+        placesClient.fetchPlace(placeRequest)
+                .addOnSuccessListener { response: FetchPlaceResponse ->
+                    val place = response.place
+
+                    // Get the photo metadata.
+                    val metada = place.photoMetadatas
+                    if (metada == null || metada.isEmpty()) {
+                        Log.w(TAG, "No photo metadata.")
+                        return@addOnSuccessListener
+                    }
+
+                    val photoMetadata = metada.first()
+
+                    photoMetadata?.attributions.let {
+                        val photoRequest = FetchPhotoRequest.builder(photoMetadata)
+                                .setMaxHeight(500) //optional
+                                .setMaxHeight(300)
+                                .build()
+                        placesClient.fetchPhoto(photoRequest)
+                                .addOnSuccessListener {
+                                    val bitmap = it.bitmap
+                                    callback(bitmap)
+                                }
+                    }
+                }
+    }
+}
+
+fun List<Place>.asDatabaseModel(): Array<PlaceNearByTable>{
+    return map{
+        PlaceNearByTable(
+                placeId = it.id?.toLongSum() ?: 0,
+                creationDate = System.currentTimeMillis(),
+                createdBy = 1,
+                lastUpdateDate = System.currentTimeMillis(),
+                placeName = it.name ?: "-",
+                city = it.name ?: "-",
+                state = "-",
+                country = "${it.rating?:"-"}",
+                description = "-",
+                img = null,
+                imgBitmap = null,
+                attributions = it.photoMetadatas?.first()?.attributions,
+                rating = it.rating ?: .0,
+                userRatingsTotal = it.userRatingsTotal ?: 0,
+                priceLevel = it.priceLevel ?: 0,
+                businessStatus = it.businessStatus.toString(),
+                address = it.address,
+                placeKey = it.id
+        )
+    }.toTypedArray()
 }

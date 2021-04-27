@@ -16,7 +16,7 @@
         android:background="@color/white"
         android:clipToPadding="false"
         android:orientation="vertical"
-        android:paddingBottom="56dp"
+        android:paddingBottom="@dimen/bottom_layout"
         android:transitionGroup="true"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"

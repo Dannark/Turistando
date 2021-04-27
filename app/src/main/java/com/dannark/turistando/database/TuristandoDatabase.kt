@@ -10,11 +10,13 @@ import kotlinx.coroutines.internal.synchronized
 @Database(entities = [
     PostTable::class,
     PlaceTable::class,
+    PlaceNearByTable::class,
     UserTable::class,
-    FriendTable::class], version = 15, exportSchema = false)
+    FriendTable::class], version = 19, exportSchema = false)
 abstract class TuristandoDatabase: RoomDatabase() {
     abstract val postDao: PostDao
     abstract val placeDao: PlaceDao
+    abstract val placeNearByDao: PlaceNearByDao
     abstract val userDao: UserDao
     abstract val friendDao: FriendDao
 

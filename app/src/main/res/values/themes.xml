@@ -31,6 +31,11 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="TextAppearance.TitleMidNotChecked" parent="TextAppearance.TitleBig">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/quantum_grey500</item>
+    </style>
+
     <style name="TextAppearance.SubTitle" parent="Widget.AppCompat.TextView">
     </style>
 

@@ -1,25 +1,33 @@
 package com.dannark.turistando.domain
 
+import android.graphics.Bitmap
 import android.os.Parcelable
 import com.dannark.turistando.database.PlaceTable
 import com.dannark.turistando.util.smartTruncate
+import com.dannark.turistando.util.toByteArray
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Place (
-    var placeId: Long,
-    var creationDate: Long,
-    var createdBy: Long,
-    var lastUpdateDate: Long,
-    var placeName: String,
-    var city: String,
-    var state: String,
-    var country: String,
-    var description: String,
-    var img: String,
-    var swimpool: Boolean,
-    var buffet: Boolean,
-    var bar: Boolean
+    val placeId: Long,
+    val creationDate: Long,
+    val createdBy: Long,
+    val lastUpdateDate: Long,
+    val placeName: String,
+    val city: String,
+    val state: String,
+    val country: String,
+    val description: String,
+    val img: String?,
+    val imgBitmap: Bitmap?,
+    val attributions: String?,
+    val rating: Double?,
+    val userRatingsTotal: Int?,
+    val priceLevel: Int?,
+    val businessStatus: String?,
+    val address: String?,
+    val placeKey: String?,
+
 ): Parcelable {
 
     val shortDescription: String
@@ -37,9 +45,14 @@ data class Place (
                 country = country,
                 description = description,
                 img = img,
-                swimpool = swimpool,
-                buffet = buffet,
-                bar = bar
+                imgBitmap = imgBitmap?.toByteArray(),
+                attributions = attributions,
+                rating = rating,
+                userRatingsTotal = userRatingsTotal,
+                priceLevel = priceLevel,
+                businessStatus = businessStatus,
+                address = address,
+                placeKey = placeKey,
         )
     }
 }

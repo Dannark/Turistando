@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.dannark.turistando.domain.Place
+import com.dannark.turistando.util.toBitmap
 
 @Entity(tableName = "places")
 data class PlaceTable(
@@ -37,17 +38,31 @@ data class PlaceTable(
     var description: String,
 
     @ColumnInfo(name = "img")
-    var img: String,
+    var img: String?,
 
+    @ColumnInfo(name = "img_bitmap", typeAffinity = ColumnInfo.BLOB)
+    val imgBitmap: ByteArray?,
 
-    @ColumnInfo(name = "swimpool")
-    var swimpool: Boolean,
+    @ColumnInfo(name = "attributions")
+    val attributions: String?,
 
-    @ColumnInfo(name = "buffet")
-    var buffet: Boolean,
+    @ColumnInfo(name = "rating")
+    val rating: Double?,
 
-    @ColumnInfo(name = "bar")
-    var bar: Boolean
+    @ColumnInfo(name = "user_ratings_total")
+    val userRatingsTotal: Int?,
+
+    @ColumnInfo(name = "price_level")
+    val priceLevel: Int?,
+
+    @ColumnInfo(name = "business_status")
+    val businessStatus: String?,
+
+    @ColumnInfo(name = "address")
+    val address: String?,
+
+    @ColumnInfo(name = "place_key")
+    val placeKey: String?,
 )
 
 fun List<PlaceTable>.asDomainInModel(): List<Place>{
@@ -63,9 +78,14 @@ fun List<PlaceTable>.asDomainInModel(): List<Place>{
             country = it.country,
             description = it.description,
             img = it.img,
-            swimpool = it.swimpool,
-            buffet = it.buffet,
-            bar = it.bar
+            imgBitmap = it.imgBitmap?.toBitmap(),
+            attributions = it.attributions,
+            rating = it.rating,
+            userRatingsTotal = it.userRatingsTotal,
+            priceLevel = it.priceLevel,
+            businessStatus = it.businessStatus,
+            address = it.address,
+            placeKey = it.placeKey,
         )
     }
 }

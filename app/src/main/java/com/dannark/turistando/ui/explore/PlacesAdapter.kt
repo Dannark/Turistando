@@ -10,8 +10,8 @@ import com.dannark.turistando.databinding.ItemListRecommendedPlacesBinding
 import com.dannark.turistando.domain.Place
 
 // This is ListAdapter is a RecyclerView, not a general ListView
-class RecommendedPlacesAdapter(val clickListener: RecommendedPlaceListener):
-        ListAdapter<Place, RecommendedPlacesAdapter.ViewHolder>(RecommendedPlacesDiffCallback()){
+class RecommendedPlacesAdapter(val clickListener: PlaceListener):
+        ListAdapter<Place, RecommendedPlacesAdapter.ViewHolder>(PlacesDiffCallback()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
@@ -24,7 +24,7 @@ class RecommendedPlacesAdapter(val clickListener: RecommendedPlaceListener):
 
     class ViewHolder private constructor(val binding: ItemListRecommendedPlacesBinding): RecyclerView.ViewHolder(binding.root){
 
-        fun bind(item: Place, clickListener: RecommendedPlaceListener) {
+        fun bind(item: Place, clickListener: PlaceListener) {
             binding.rPlace = item
             binding.clickListener = clickListener
             binding.executePendingBindings()
@@ -42,7 +42,7 @@ class RecommendedPlacesAdapter(val clickListener: RecommendedPlaceListener):
 
 }
 
-class RecommendedPlacesDiffCallback : DiffUtil.ItemCallback<Place>(){
+class PlacesDiffCallback : DiffUtil.ItemCallback<Place>(){
     override fun areItemsTheSame(oldItem: Place, newItem: Place): Boolean {
         return oldItem.placeId == newItem.placeId
     }
@@ -52,6 +52,6 @@ class RecommendedPlacesDiffCallback : DiffUtil.ItemCallback<Place>(){
     }
 }
 
-class RecommendedPlaceListener(val clickListener: (view: View, place: Place) -> Unit){
+class PlaceListener(val clickListener: (view: View, place: Place) -> Unit){
     fun onClick(view: View, place: Place) = clickListener(view, place)
 }

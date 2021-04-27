@@ -9,7 +9,7 @@
             type="com.dannark.turistando.domain.Place" />
         <variable
             name="clickListener"
-            type="com.dannark.turistando.home.RecommendedPlaceListener" />
+            type="com.dannark.turistando.home.PlaceListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,6 +39,7 @@
                 android:scaleType="centerCrop"
                 tools:srcCompat="@tools:sample/backgrounds/scenic"
                 app:imageUrl="@{rPlace.img}"
+                app:imageBitmap="@{rPlace.imgBitmap}"
                 app:glideRoundingRadius="@{30}"/>
 
             <ImageView
@@ -46,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_gravity="bottom"
-                android:alpha=".8"
+                android:alpha=".9"
                 android:rotation="180"
                 android:scaleType="fitXY"
                 app:layout_constraintStart_toStartOf="parent"
@@ -64,7 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:text="@{rPlace.city}"
+                    android:text="@{rPlace.placeName}"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="14sp"

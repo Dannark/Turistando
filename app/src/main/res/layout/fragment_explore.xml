@@ -13,7 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:transitionGroup="true">
+        android:transitionGroup="true"
+        android:paddingBottom="@dimen/bottom_layout"
+        app:paddingBottomSystemWindowInsets="@{true}">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -77,26 +79,29 @@
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/chipGroup3"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        app:checkedChip="@id/chip_recommended"
+                        app:singleLine="true"
+                        app:singleSelection="true">
 
                         <com.google.android.material.chip.Chip
-                            android:id="@+id/chip10"
+                            android:id="@+id/chip_recommended"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/recommended"
                             android:textAppearance="@style/TextAppearance.TitleMid"
-                            android:textColor="@android:color/black"
-                            android:textStyle="bold"
+                            android:checkable="true"
+                            app:checkedIconVisible="false"
                             app:chipBackgroundColor="@color/transparent" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip11"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/near"
-                            android:textAppearance="@style/TextAppearance.TitleMid"
-                            android:textColor="@android:color/black"
-                            android:textStyle="bold"
+                            android:text="@string/beach"
+                            app:checkedIconVisible="false"
+                            android:textAppearance="@style/TextAppearance.TitleMidNotChecked"
+                            style="@style/TextAppearance.TitleMidNotChecked"
                             app:chipBackgroundColor="@color/transparent" />
 
                         <com.google.android.material.chip.Chip
@@ -104,9 +109,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/popular"
-                            android:textAppearance="@style/TextAppearance.TitleMid"
-                            android:textColor="@android:color/black"
-                            android:textStyle="bold"
+                            app:checkedIconVisible="false"
+                            android:textAppearance="@style/TextAppearance.TitleMidNotChecked"
+                            style="@style/TextAppearance.TitleMidNotChecked"
                             app:chipBackgroundColor="@color/transparent" />
 
 
@@ -159,55 +164,22 @@
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/chipGroup"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        app:checkedChip="@id/chip_nearby"
+                        app:singleLine="true"
+                        app:singleSelection="true">
 
                         <com.google.android.material.chip.Chip
-                            android:id="@+id/chip4_all"
+                            android:id="@+id/chip_nearby"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Praias"
+                            android:checkable="true"
+                            android:text="@string/near"
                             android:textAppearance="@style/TextAppearance.TitleMid"
+                            app:checkedIconVisible="false"
                             app:chipBackgroundColor="@color/transparent" />
 
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_supermarket"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Nativos"
-                            android:textAppearance="@style/TextAppearance.TitleMid"
-                            app:chipBackgroundColor="@color/transparent" />
 
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_food"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Crianças"
-                            android:textAppearance="@style/TextAppearance.TitleMid"
-                            app:chipBackgroundColor="@color/transparent" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_store"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Arte e cultura"
-                            android:textAppearance="@style/TextAppearance.TitleMid"
-                            app:chipBackgroundColor="@color/transparent" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_establishment"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Museu"
-                            android:textAppearance="@style/TextAppearance.TitleMid"
-                            app:chipBackgroundColor="@color/transparent" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_point_of_interest"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Historia"
-                            android:textAppearance="@style/TextAppearance.TitleMid"
-                            app:chipBackgroundColor="@color/transparent" />
                     </com.google.android.material.chip.ChipGroup>
                 </HorizontalScrollView>
 
@@ -238,7 +210,7 @@
                     tools:listitem="@layout/item_list_friends" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
+                    android:id="@+id/places_nearby_list"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginTop="8dp"

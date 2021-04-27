@@ -1,5 +1,15 @@
 package com.dannark.turistando.util
 
+import android.app.Application
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Bitmap.CompressFormat
+import android.graphics.BitmapFactory
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
+import java.io.ByteArrayOutputStream
+
+
 private val PUNCTUATION = listOf(", ", "; ", ": ", " ")
 
 /**
@@ -34,3 +44,25 @@ fun String.smartTruncate(length: Int): String {
 
 fun Boolean.toInt() = if(this) 1 else 0
 fun Int.toBoolean() = this==1
+
+fun Bitmap.toByteArray(): ByteArray? {
+    val outputStream = ByteArrayOutputStream()
+    this.compress(CompressFormat.PNG, 0, outputStream)
+    return outputStream.toByteArray()
+}
+fun ByteArray.toBitmap(): Bitmap?{
+    return BitmapFactory.decodeByteArray(this, 0, this.size)
+}
+
+/*
+ * (conert big string id such as "ASD464G6KVJ5RC45A" to a int id 1106
+ */
+fun String.toLongSum() = this.map { it.toInt() }.sum().toLong()
+
+fun isConnectedToInternet(application: Application): Boolean{
+    val cm = application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+    val isConnected: Boolean = activeNetwork?.isConnected == true
+
+    return isConnected
+}

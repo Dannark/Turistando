@@ -2,7 +2,7 @@ package com.dannark.turistando.network
 
 import com.dannark.turistando.database.PlaceTable
 import com.dannark.turistando.domain.Place
-import com.dannark.turistando.util.toBoolean
+import com.dannark.turistando.util.toBitmap
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -22,10 +22,20 @@ data class PlaceNetwork (
     var state: String,
     var country: String,
     var description: String,
-    var img: String,
-    var swimpool: Int,
-    var buffet: Int,
-    var bar: Int?
+    var img: String?,
+    @Json(name = "img_bitmap")
+    val imgBitmap: ByteArray?,
+    val attributions: String?,
+    val rating: Double?,
+    @Json(name = "user_ratings_total")
+    val userRatingsTotal: Int?,
+    @Json(name = "price_level")
+    val priceLevel: Int?,
+    @Json(name = "business_status")
+    val businessStatus: String?,
+    val address: String?,
+    @Json(name = "place_key")
+    val placeKey: String?,
 )
 
 @JsonClass(generateAdapter = true)
@@ -43,9 +53,14 @@ data class PlaceNetworkContainer(val places: List<PlaceNetwork>){
                 country = it.country,
                 description = it.description,
                 img = it.img,
-                swimpool = it.swimpool.toBoolean(),
-                buffet = it.buffet.toBoolean(),
-                bar = (it.bar?:0).toBoolean()
+                imgBitmap = it.imgBitmap?.toBitmap(),
+                attributions = it.attributions,
+                rating = it.rating,
+                userRatingsTotal = it.userRatingsTotal,
+                priceLevel = it.priceLevel,
+                businessStatus = it.businessStatus,
+                address = it.address,
+                placeKey = it.placeKey,
             )
         }
     }
@@ -63,9 +78,14 @@ data class PlaceNetworkContainer(val places: List<PlaceNetwork>){
                 country = it.country,
                 description = it.description,
                 img = it.img,
-                swimpool = it.swimpool.toBoolean(),
-                buffet = it.buffet.toBoolean(),
-                bar = (it.bar?:0).toBoolean()
+                imgBitmap = it.imgBitmap,
+                attributions = it.attributions,
+                rating = it.rating,
+                userRatingsTotal = it.userRatingsTotal,
+                priceLevel = it.priceLevel,
+                businessStatus = it.businessStatus,
+                address = it.address,
+                placeKey = it.placeKey,
             )
         }.toTypedArray()
     }

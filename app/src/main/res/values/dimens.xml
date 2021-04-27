@@ -2,4 +2,5 @@
 <resources>
     <dimen name="button_radius_large">9dp</dimen>
     <dimen name="horizontal_margin">8dp</dimen>
+    <dimen name="bottom_layout">64dp</dimen>
 </resources>

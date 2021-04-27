@@ -16,7 +16,7 @@
     <string name="friends_near_by">Your Friends Near By</string>
     <string name="explore_new_places">Explore Rio de Janeiro!</string>
     <string name="recommended">Recommended</string>
-    <string name="near">Near</string>
+    <string name="near">Near by</string>
     <string name="popular">Popular</string>
     <string name="user_image_context_description">User Image</string>
     <string name="card_image_context_description">Card Image</string>
@@ -39,4 +39,5 @@
     <string name="only_in_brazil">Only in Brazil</string>
     <string name="hotel">Hotel</string>
     <string name="beach">Beach</string>
+    <string name="total_reviews">(%1$d) Reviews</string>
 </resources>

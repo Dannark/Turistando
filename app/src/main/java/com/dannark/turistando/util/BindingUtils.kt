@@ -1,5 +1,6 @@
 package com.dannark.turistando.home
 
+import android.graphics.Bitmap
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
@@ -51,18 +52,19 @@ fun TextView.timePastFormatted(time: Long){
     }
 }
 
-@BindingAdapter("imageUrl","glideCenterCrop","glideCircularCrop", "glideRoundingRadius", requireAll = false)
-fun ImageView.bindImage(imgUrl: String, centerCrop: Boolean = false, circularCrop: Boolean = false, roundingRadius : Int = 0){
-    imgUrl.let {
-        val imgUri = it.toUri().buildUpon().scheme("https").build()
-        val req = Glide.with(context)
-            .load(imgUri)
-            .apply(
-                RequestOptions()
+@BindingAdapter("imageUrl", "imageBitmap", "glideCenterCrop","glideCircularCrop", "glideRoundingRadius", requireAll = false)
+fun ImageView.bindImage(imgUrl: String?, bitmap: Bitmap?, centerCrop: Boolean = false, circularCrop: Boolean = false, roundingRadius : Int = 0){
+    val imgUri = imgUrl?.toUri()?.buildUpon()?.scheme("https")?.build()
+    val imgToLoad = bitmap?:imgUri
 
-                    .placeholder(R.drawable.loading_animation)
-                    .error(R.drawable.ic_broken_image)
-            )
+    imgToLoad?.let {
+        val req = Glide.with(context)
+                .load(imgToLoad)
+                .apply(
+                        RequestOptions()
+                                .placeholder(R.drawable.loading_animation)
+                                .error(R.drawable.ic_broken_image)
+                )
         if (centerCrop) req.centerCrop()
         if (circularCrop) req.circleCrop()
         if (roundingRadius != 0) req.apply(RequestOptions().transform(CenterCrop(), RoundedCorners(roundingRadius)))
@@ -75,7 +77,8 @@ fun View.bindLayoutFullscreen(previousFullscreen: Boolean, fullscreen: Boolean) 
     if (previousFullscreen != fullscreen && fullscreen) {
         systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
     }
 }
 

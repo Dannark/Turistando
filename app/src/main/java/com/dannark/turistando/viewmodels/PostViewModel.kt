@@ -1,17 +1,18 @@
 package com.dannark.turistando.viewmodels
 
 import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import com.dannark.turistando.database.TuristandoDatabase
 import com.dannark.turistando.repository.PostsRepository
+import com.dannark.turistando.util.isConnectedToInternet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+
+private var queryOnce: Boolean = false
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {
     private var viewModelJob = SupervisorJob()
@@ -27,13 +28,17 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     val posts = postsRepository.posts
 
     init {
-        val cm = application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
-        val isConnected: Boolean = activeNetwork?.isConnected == true
+        val isConnected = isConnectedToInternet(application)
 
         if (isConnected) {
-            uiScope.launch {
-                postsRepository.refreshPosts()
+            if(!queryOnce) {
+                queryOnce = false
+                uiScope.launch {
+                    postsRepository.refreshPosts()
+                }
+            }
+            else{
+                Log.d("PostViewModel", "Ignoring second refresh data until app restarts...")
             }
         }
         else{

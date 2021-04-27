@@ -14,7 +14,7 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.dannark.turistando.R
 import com.dannark.turistando.databinding.FragmentExploreBinding
-import com.dannark.turistando.home.RecommendedPlaceListener
+import com.dannark.turistando.home.PlaceListener
 import com.dannark.turistando.home.RecommendedPlacesAdapter
 import com.dannark.turistando.viewmodels.ExploreViewModel
 import com.google.android.material.transition.MaterialElevationScale
@@ -41,9 +41,8 @@ class ExploreFragment : Fragment() {
         val binding: FragmentExploreBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_explore, container, false)
 
-        val application = requireNotNull(this.activity).application
         val userId = 1
-        val viewModelFactory = ExploreViewModelFactory(userId, application)
+        val viewModelFactory = ExploreViewModelFactory(userId, requireNotNull(this.activity))
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(ExploreViewModel::class.java)
 
@@ -51,7 +50,7 @@ class ExploreFragment : Fragment() {
         binding.homeViewModel = viewModel
 
         // Adapters
-        val placeAdapter = RecommendedPlacesAdapter(RecommendedPlaceListener { view, place ->
+        val placeAdapter = RecommendedPlacesAdapter(PlaceListener { view, place ->
             exitTransition = MaterialElevationScale(false).apply {
                 duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
             }
@@ -60,10 +59,21 @@ class ExploreFragment : Fragment() {
             val directions = ExploreFragmentDirections.actionExploreMenuToPlaceDetailsFragment(place)
             findNavController().navigate(directions, extras)
         })
+        val placesNearByAdapter = RecommendedPlacesAdapter(PlaceListener { view, place ->
+//            exitTransition = MaterialElevationScale(false).apply {
+//                duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+//            }
+//            val placeCardDetailTransitionName = getString(R.string.place_card_detail_transition_name)
+//            val extras = FragmentNavigatorExtras(view to placeCardDetailTransitionName)
+//            val directions = ExploreFragmentDirections.actionExploreMenuToPlaceDetailsFragment(place)
+//            findNavController().navigate(directions, extras)
+        })
         val friendAdapter = FriendsAdapter(FriendClickListener {
             Toast.makeText(context, "${it.lastName} não está online", Toast.LENGTH_SHORT).show()
         })
+
         binding.recommendedList.adapter = placeAdapter
+        binding.placesNearbyList.adapter = placesNearByAdapter
         binding.friendList.adapter = friendAdapter
 
         //Observable fields
@@ -75,6 +85,11 @@ class ExploreFragment : Fragment() {
         viewModel.friends.observe(viewLifecycleOwner, Observer {
             it?.let {
                 friendAdapter.submitList(it)
+            }
+        })
+        viewModel.placesNearBy.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                placesNearByAdapter.submitList(it)
             }
         })
 
