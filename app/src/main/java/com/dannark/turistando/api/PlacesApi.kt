@@ -78,7 +78,8 @@ class PlacesApi private constructor(applicationContext:Context) {
                 Place.Field.PRICE_LEVEL,
                 Place.Field.BUSINESS_STATUS,
                 Place.Field.ADDRESS,
-                Place.Field.PHOTO_METADATAS)
+                Place.Field.PHOTO_METADATAS,
+                Place.Field.TYPES)
         val request: FindCurrentPlaceRequest = FindCurrentPlaceRequest.newInstance(placeFields)
         if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED) {
@@ -90,10 +91,11 @@ class PlacesApi private constructor(applicationContext:Context) {
 
                     val list = mutableListOf<Place>()
                     for (placeLikelihood: PlaceLikelihood in response?.placeLikelihoods ?: emptyList()) {
-                        if(placeLikelihood.place.photoMetadatas != null) {
+                        if(placeLikelihood.place.photoMetadatas != null
+                                && placeLikelihood.place.rating ?: 0.0 > 3.9) {
                             list.add(placeLikelihood.place)
                         }
-                        Log.i(TAG,"Place '${placeLikelihood.place.name}' (${placeLikelihood.place.addressComponents}) has likelihood: ${placeLikelihood.likelihood}")
+                        Log.i(TAG,"Place '${placeLikelihood.place.name}' - (${placeLikelihood.place.types}) - likelihood: ${placeLikelihood.likelihood}")
 
                     }
                     callback(list)

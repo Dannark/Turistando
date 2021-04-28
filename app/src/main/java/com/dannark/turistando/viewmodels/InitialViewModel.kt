@@ -4,10 +4,18 @@ import android.app.Activity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.dannark.turistando.repository.UserPreferencesRepository
+import kotlinx.coroutines.launch
 
-class MainViewModel(activity: Activity) : AndroidViewModel(activity.application){
+class InitialViewModel(activity: Activity): AndroidViewModel(activity.application) {
     private val pref = UserPreferencesRepository.getInstance(activity)
+
+    fun saveFirstTime(enabled: Boolean) {
+        viewModelScope.launch {
+            pref.savePreferencesFirstIme(enabled)
+        }
+    }
 
     fun checkFirstTimeEnabled(): LiveData<UserPreferencesRepository.FirstTimeSelection> {
         return pref.firstTimePreferencesFlow.asLiveData()

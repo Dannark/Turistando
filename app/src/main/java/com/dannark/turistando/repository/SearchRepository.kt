@@ -69,13 +69,20 @@ class SearchRepository(private val placeApi: PlacesApi, private val database: Tu
     private suspend fun saveOnLocalDatabase(places: List<com.google.android.libraries.places.api.model.Place>){
         withContext(Dispatchers.IO) {
             Log.e("SearchRepository","saving to database")
-            val placesArray = places.asDatabaseModel()
-            database.placeNearByDao.insertAll(*placesArray)
+            database.placeNearByDao.insertAllAndIgnoreDuplicates(*places.asDatabaseModel())
 
+            val placesArray = placesNearBy.value
+
+            val deletedItems = findDiff(places.asDatabaseModel(), placesArray!!.toTypedArray())
+            database.placeNearByDao.delete(*deletedItems)
+
+
+            Log.e("SearchRepository","=== received ${placesArray.size} from database")
             placesArray.forEach {
                 val downloadMissingImage = it.placeKey != null && it.imgBitmap == null
                 if(downloadMissingImage){
-                    downloadImageFromGoogleApi(it)
+                    Log.i("SearchRepository","requesting img of=${it.placeName}")
+                    downloadImageFromGoogleApi(it.asPlaceNearByTableModel())
                 }
             }
         }
@@ -99,5 +106,27 @@ class SearchRepository(private val placeApi: PlacesApi, private val database: Tu
             placeNearBy.imgBitmap = bitmap.toByteArray()
             database.placeNearByDao.update(placeNearBy)
         }
+    }
+
+    // Data Structured function to find missing values between two lists
+    fun findDiff(arr1: Array<PlaceNearByTable>, arr2: Array<Place>): Array<PlaceNearByTable>{
+        Log.e("PlaceRepository","Place list size = ${arr1.size}")
+        val found = hashMapOf<Int, Int>()
+        val missing = mutableListOf<PlaceNearByTable>()
+
+        for (item in arr1){
+            found[item.placeId.toInt()] = (found[item.placeId.toInt()]?:0) + 1
+        }
+
+        for (item in arr2){
+            val id = item.placeId.toInt()
+            found[id] = (found[id]?:0) - 1
+            if(found[id]!! < 0){
+                missing.add(item.asPlaceNearByTableModel())
+            }
+        }
+        Log.e("PostRepository -","missing ${missing.size} elements")
+
+        return missing.toTypedArray()
     }
 }

@@ -6,8 +6,11 @@ import androidx.room.*
 @Dao
 interface PlaceNearByDao {
     //upsert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertAllAndIgnoreDuplicates(vararg places: PlaceNearByTable)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg places: PlaceNearByTable)
+    fun insertAllForced(vararg places: PlaceNearByTable)
 
     @Query("SELECT * FROM places_near_by ORDER BY place_id DESC")
     fun getAll(): LiveData<List<PlaceNearByTable>>

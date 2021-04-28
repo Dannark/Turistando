@@ -2,6 +2,7 @@ package com.dannark.turistando.domain
 
 import android.graphics.Bitmap
 import android.os.Parcelable
+import com.dannark.turistando.database.PlaceNearByTable
 import com.dannark.turistando.database.PlaceTable
 import com.dannark.turistando.util.smartTruncate
 import com.dannark.turistando.util.toByteArray
@@ -35,6 +36,29 @@ data class Place (
 
     fun asTableModel(): PlaceTable {
         return PlaceTable(
+                placeId = placeId,
+                creationDate = creationDate,
+                createdBy = createdBy,
+                lastUpdateDate = lastUpdateDate,
+                placeName = placeName,
+                city = city,
+                state = state,
+                country = country,
+                description = description,
+                img = img,
+                imgBitmap = imgBitmap?.toByteArray(),
+                attributions = attributions,
+                rating = rating,
+                userRatingsTotal = userRatingsTotal,
+                priceLevel = priceLevel,
+                businessStatus = businessStatus,
+                address = address,
+                placeKey = placeKey,
+        )
+    }
+
+    fun asPlaceNearByTableModel(): PlaceNearByTable {
+        return PlaceNearByTable(
                 placeId = placeId,
                 creationDate = creationDate,
                 createdBy = createdBy,

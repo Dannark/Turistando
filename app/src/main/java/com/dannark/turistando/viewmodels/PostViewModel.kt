@@ -4,8 +4,11 @@ import android.app.Application
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import com.dannark.turistando.database.TuristandoDatabase
 import com.dannark.turistando.repository.PostsRepository
+import com.dannark.turistando.repository.UserPreferencesRepository
 import com.dannark.turistando.util.isConnectedToInternet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +23,11 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+    }
+
+    private val pref = UserPreferencesRepository.getInstance(application)
+    fun checkFirstTimeEnabled(): LiveData<UserPreferencesRepository.FirstTimeSelection> {
+        return pref.firstTimePreferencesFlow.asLiveData()
     }
 
     private val uiScope = CoroutineScope(Dispatchers.Main +  viewModelJob)

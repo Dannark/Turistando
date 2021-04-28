@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.dannark.turistando.R
 import com.dannark.turistando.databinding.FragmentPostBinding
 import com.dannark.turistando.home.PostsAdapter
 import com.dannark.turistando.home.PostsListener
+import com.dannark.turistando.repository.UserPreferencesRepository
 import com.dannark.turistando.viewmodels.PostViewModel
 import com.google.android.material.transition.MaterialSharedAxis
 
@@ -55,6 +57,13 @@ class PostFragment : Fragment() {
                 postAdapter.addHeaderAndSubmitList(it)
             }
         })
+
+        viewModel.checkFirstTimeEnabled().observe(viewLifecycleOwner) { s ->
+            if (s == UserPreferencesRepository.FirstTimeSelection.TRUE) {
+                this.findNavController()
+                        .navigate(PostFragmentDirections.actionPostFragmentToInitialFragment())
+            }
+        }
 
         binding.postsList.adapter = postAdapter
 

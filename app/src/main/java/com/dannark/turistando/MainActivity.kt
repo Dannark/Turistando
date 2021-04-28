@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import androidx.work.*
 import com.dannark.turistando.databinding.ActivityMainBinding
+import com.dannark.turistando.repository.UserPreferencesRepository
 import com.dannark.turistando.viewmodels.MainViewModel
 import com.dannark.turistando.work.RefreshDataWork
 import kotlinx.coroutines.CoroutineScope
@@ -29,13 +31,25 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        val viewModelFactory =  MainViewModelFactory(this)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
         binding.viewModel = viewModel
 
         val navController = Navigation.findNavController(this, R.id.myNavHostFragment)
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
 
+        viewModel.checkFirstTimeEnabled().observe(this){ s ->
+            setupMenu(s)
+        }
+
         delayedInit()
+    }
+
+    private fun setupMenu(selection: UserPreferencesRepository.FirstTimeSelection) {
+        binding.bottomNavigation.isVisible = when (selection) {
+            UserPreferencesRepository.FirstTimeSelection.TRUE -> false
+            else -> true
+        }
     }
 
     private fun delayedInit() {
@@ -61,10 +75,12 @@ class MainActivity : AppCompatActivity() {
             )
         }
     }
+
     fun setLightStatusBar() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.transparent)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
     }
+
     fun setDarkStatusBar() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.statusBarColor)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
