@@ -2,10 +2,7 @@ package com.dannark.turistando.repository
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.emptyPreferences
-import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.createDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -18,12 +15,23 @@ class UserPreferencesRepository private constructor(context: Context){
 
     object PreferencesKeys {
         val FIRST_TIME = stringPreferencesKey("first_time")
-        val LAST_UPDATED_DATE = stringPreferencesKey("last_updated_date")
+        val EXPLORE_LAST_UPDATE = longPreferencesKey("explore_last_update")
     }
 
     enum class FirstTimeSelection{
         TRUE, FALSE
     }
+
+    suspend fun saveExploreLastUpdate(){
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.EXPLORE_LAST_UPDATE] = System.currentTimeMillis()
+        }
+    }
+
+    val explorePreferencesFlow: Flow<Long> = dataStore.data
+            .map { preferences ->
+                preferences[PreferencesKeys.EXPLORE_LAST_UPDATE] ?: -1
+            }
 
     suspend fun savePreferencesFirstIme(isSelected: Boolean){
         val selection = when (isSelected) {

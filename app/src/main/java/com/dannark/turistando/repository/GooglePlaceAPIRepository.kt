@@ -1,8 +1,8 @@
 package com.dannark.turistando.repository
 
-import android.app.Activity
 import android.graphics.Bitmap
 import android.util.Log
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.dannark.turistando.R
@@ -16,7 +16,7 @@ import com.dannark.turistando.domain.Suggestion
 import com.dannark.turistando.util.toByteArray
 import kotlinx.coroutines.*
 
-class SearchRepository(private val placeApi: PlacesApi, private val database: TuristandoDatabase) {
+class GooglePlaceAPIRepository(private val placeApi: PlacesApi, private val database: TuristandoDatabase) {
     private var viewModelJob = SupervisorJob()
     private val uiScope = CoroutineScope(Dispatchers.Main +  viewModelJob)
 
@@ -34,7 +34,7 @@ class SearchRepository(private val placeApi: PlacesApi, private val database: Tu
     }
 
     val placesNearBy: LiveData<List<Place>> = Transformations.map(database.placeNearByDao.getAll()){
-        Log.e("SearchRepository","reading from database")
+        Log.e("GooglePlaceAPIRepository","reading from database")
         it.asDomainInModel()
     }
 
@@ -44,12 +44,12 @@ class SearchRepository(private val placeApi: PlacesApi, private val database: Tu
                 placeApi.findPlacesNearBy(query)
 
             }catch (e: Exception){
-                Log.e("SearchRepository","Couldn't update the list from the server")
+                Log.e("GooglePlaceAPIRepository","Couldn't update the list from the server")
             }
         }
     }
 
-    suspend fun refreshPlacesNearBy(activity: Activity){
+    suspend fun refreshPlacesNearBy(activity: FragmentActivity){
         withContext(Dispatchers.IO){
             try {
                 placeApi.getLocationsNeayBy(activity, callback = { places ->
@@ -61,23 +61,24 @@ class SearchRepository(private val placeApi: PlacesApi, private val database: Tu
                 })
 
             }catch (e: Exception){
-                Log.e("SearchRepository","Couldn't retrieve the place near by list from the server")
+                Log.e("GooglePlaceAPIRepository","Couldn't retrieve the place near by list from the server")
             }
         }
     }
 
     private suspend fun saveOnLocalDatabase(places: List<com.google.android.libraries.places.api.model.Place>){
         withContext(Dispatchers.IO) {
-            Log.e("SearchRepository","saving to database")
+            Log.e("GooglePlaceAPIRepository","saving to database")
             database.placeNearByDao.insertAllAndIgnoreDuplicates(*places.asDatabaseModel())
 
+            Thread.sleep(100)
             val placesArray = placesNearBy.value
 
             val deletedItems = findDiff(places.asDatabaseModel(), placesArray!!.toTypedArray())
             database.placeNearByDao.delete(*deletedItems)
 
 
-            Log.e("SearchRepository","=== received ${placesArray.size} from database")
+            Log.e("GooglePlaceAPIRepository","=== received ${placesArray.size} from database")
             placesArray.forEach {
                 val downloadMissingImage = it.placeKey != null && it.imgBitmap == null
                 if(downloadMissingImage){
@@ -102,7 +103,7 @@ class SearchRepository(private val placeApi: PlacesApi, private val database: Tu
 
     private suspend fun saveImageToDatabase(placeNearBy: PlaceNearByTable, bitmap: Bitmap){
         withContext(Dispatchers.IO){
-            Log.e("SearchRepository","Image Downloaded! Saving to database imgId= $placeNearBy")
+            Log.e("GooglePlaceAPIRepository","Image Downloaded! Saving to database imgId= $placeNearBy")
             placeNearBy.imgBitmap = bitmap.toByteArray()
             database.placeNearByDao.update(placeNearBy)
         }
@@ -110,7 +111,7 @@ class SearchRepository(private val placeApi: PlacesApi, private val database: Tu
 
     // Data Structured function to find missing values between two lists
     fun findDiff(arr1: Array<PlaceNearByTable>, arr2: Array<Place>): Array<PlaceNearByTable>{
-        Log.e("PlaceRepository","Place list size = ${arr1.size}")
+        Log.e("GooglePlaceAPIRepository","Place list size = ${arr1.size}")
         val found = hashMapOf<Int, Int>()
         val missing = mutableListOf<PlaceNearByTable>()
 
@@ -125,7 +126,7 @@ class SearchRepository(private val placeApi: PlacesApi, private val database: Tu
                 missing.add(item.asPlaceNearByTableModel())
             }
         }
-        Log.e("PostRepository -","missing ${missing.size} elements")
+        Log.e("GooglePlaceAPIRepository -","missing ${missing.size} elements")
 
         return missing.toTypedArray()
     }

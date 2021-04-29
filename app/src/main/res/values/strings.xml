@@ -40,4 +40,5 @@
     <string name="hotel">Hotel</string>
     <string name="beach">Beach</string>
     <string name="total_reviews">(%1$d) Reviews</string>
+    <string name="warning_location_permission">Without your location permission, some features will not be available.</string>
 </resources>

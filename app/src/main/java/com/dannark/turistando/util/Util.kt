@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import java.io.ByteArrayOutputStream
+import java.util.concurrent.TimeUnit
 
 
 private val PUNCTUATION = listOf(", ", "; ", ": ", " ")
@@ -55,7 +56,7 @@ fun ByteArray.toBitmap(): Bitmap?{
 }
 
 /*
- * (conert big string id such as "ASD464G6KVJ5RC45A" to a int id 1106
+ * (convert big string id such as "ASD464G6KVJ5RC45A" to a int id 1106
  */
 fun String.toLongSum() = this.map { it.toInt() }.sum().toLong()
 
@@ -66,3 +67,21 @@ fun isConnectedToInternet(application: Application): Boolean{
 
     return isConnected
 }
+
+fun getTimeArrayDiff(past:Long): TimeObject {
+    val diffInMillisec = System.currentTimeMillis() - past
+
+    return TimeObject(
+            TimeUnit.MILLISECONDS.toDays(diffInMillisec),
+            TimeUnit.MILLISECONDS.toHours(diffInMillisec),
+            TimeUnit.MILLISECONDS.toMinutes(diffInMillisec),
+            TimeUnit.MILLISECONDS.toSeconds(diffInMillisec)
+    )
+}
+
+data class TimeObject (
+    val days: Long,
+    val hours: Long,
+    val min: Long,
+    val sec: Long,
+)

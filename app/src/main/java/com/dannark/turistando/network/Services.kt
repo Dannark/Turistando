@@ -37,7 +37,7 @@ private val moshi = Moshi.Builder()
 
 object Network{
     private val retrofit = Retrofit.Builder()
-        .baseUrl(DEV_URL)
+        .baseUrl(PRD_URL)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()

@@ -14,7 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.dannark.turistando.R
 import com.dannark.turistando.domain.Post
-import java.util.concurrent.TimeUnit
+import com.dannark.turistando.util.getTimeArrayDiff
 
 @BindingAdapter("postsLikesFormatted")
 fun TextView.postsLikesFormatted(item: Post){
@@ -32,23 +32,17 @@ fun TextView.postsLikesFormatted(item: Post){
 @BindingAdapter("timePastFormatted")
 fun TextView.timePastFormatted(time: Long){
     time.let{
-        val diffInMillisec = System.currentTimeMillis() - it
-
-        val diffInDays: Long = TimeUnit.MILLISECONDS.toDays(diffInMillisec)
-        val diffInHours: Long = TimeUnit.MILLISECONDS.toHours(diffInMillisec)
-        val diffInMin: Long = TimeUnit.MILLISECONDS.toMinutes(diffInMillisec)
-        val diffInSec: Long = TimeUnit.MILLISECONDS.toSeconds(diffInMillisec)
+        val diff = getTimeArrayDiff(it)
 
         val postTime = when{
-            diffInSec < 60 -> String.format(resources.getString(R.string.posted_time_s), diffInSec)
-            diffInMin < 60 -> String.format(resources.getString(R.string.posted_time_m), diffInMin)
-            diffInHours < 24 -> String.format(resources.getString(R.string.posted_time_h), diffInHours)
-            diffInDays < 31 -> String.format(resources.getString(R.string.posted_time_d), diffInDays)
+            diff.sec < 60 -> String.format(resources.getString(R.string.posted_time_s), diff.sec)
+            diff.min < 60 -> String.format(resources.getString(R.string.posted_time_m), diff.min)
+            diff.hours < 24 -> String.format(resources.getString(R.string.posted_time_h), diff.hours)
+            diff.days < 31 -> String.format(resources.getString(R.string.posted_time_d), diff.days)
             else -> "-"
         }
 
         text = postTime
-
     }
 }
 

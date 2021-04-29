@@ -1,13 +1,12 @@
 package com.dannark.turistando.api
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.util.Log
-import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.dannark.turistando.R
@@ -68,7 +67,7 @@ class PlacesApi private constructor(applicationContext:Context) {
             }
     }
 
-    fun getLocationsNeayBy(activity: Activity, callback: (places: List<Place>) -> Unit){
+    fun getLocationsNeayBy(activity: FragmentActivity, callback: (places: List<Place>) -> Unit){
         Log.e(TAG, "getLocationsNeayBy")
         val placeFields: List<Place.Field> = listOf(
                 Place.Field.ID,
@@ -107,9 +106,8 @@ class PlacesApi private constructor(applicationContext:Context) {
                 }
             }
         } else {
-            requestPermissions(activity,
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    1)
+            activity.requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    Manifest.permission.ACCESS_FINE_LOCATION.toLongSum().toInt())
         }
     }
 
