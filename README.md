@@ -21,3 +21,5 @@ The app features includes:
 The app uses a web server API build in node js hosted in AWS for testing purpose
 
 The main objective with this app is to demonstrate how to develop and struct a good architecture with Android kotlin that is scalable and easy yo maintain.
+
+![turistando_app_01](https://user-images.githubusercontent.com/7622553/116609253-8caf5500-a90a-11eb-8f2b-d2393e886ace.gif)
