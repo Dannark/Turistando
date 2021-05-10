@@ -1,3 +1,5 @@
+[![wakatime](https://wakatime.com/badge/github/Dannark/Turistando.svg)](https://wakatime.com/badge/github/Dannark/Turistando)
+
 ## Turistando
 ✨ A Travel Kotlin App using MVVM Archtecture, Room and others Design Patterns
 
