@@ -4,12 +4,10 @@ import android.app.Activity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import com.dannark.turistando.repository.UserPreferencesRepository
+import com.dannark.turistando.repository.userpref.DefaultUserPreferencesRepository
 
 class MainViewModel(activity: Activity) : AndroidViewModel(activity.application){
-    private val pref = UserPreferencesRepository.getInstance(activity)
+    private val pref = DefaultUserPreferencesRepository.getInstance(activity)
 
-    fun checkFirstTimeEnabled(): LiveData<UserPreferencesRepository.FirstTimeSelection> {
-        return pref.firstTimePreferencesFlow.asLiveData()
-    }
+    fun checkFirstTimeEnabled() = pref.isFirstLaunch
 }

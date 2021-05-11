@@ -1,56 +1,45 @@
 package com.dannark.turistando.viewmodels
 
-import android.app.Application
-import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.dannark.turistando.database.TuristandoDatabase
-import com.dannark.turistando.repository.PostsRepository
-import com.dannark.turistando.repository.UserPreferencesRepository
-import com.dannark.turistando.util.isConnectedToInternet
+import androidx.lifecycle.viewModelScope
+import com.dannark.turistando.repository.userpref.DefaultUserPreferencesRepository
+import com.dannark.turistando.repository.posts.PostsRepository
+import com.dannark.turistando.repository.userpref.UserPreferencesRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 private var queryOnce: Boolean = false
 
-class PostViewModel(application: Application) : AndroidViewModel(application) {
-    private var viewModelJob = SupervisorJob()
+class PostViewModel(
+    private val pref: UserPreferencesRepository,
+    private val postsRepository: PostsRepository) : ViewModel() {
 
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
-    }
+    fun checkFirstTimeEnabled() = pref.isFirstLaunch
 
-    private val pref = UserPreferencesRepository.getInstance(application)
-    fun checkFirstTimeEnabled(): LiveData<UserPreferencesRepository.FirstTimeSelection> {
-        return pref.firstTimePreferencesFlow.asLiveData()
-    }
-
-    private val uiScope = CoroutineScope(Dispatchers.Main +  viewModelJob)
-    private val database = TuristandoDatabase.getInstance(application)
-    private val postsRepository = PostsRepository(database)
     val posts = postsRepository.posts
 
     init {
-        val isConnected = isConnectedToInternet(application)
+        val isConnected = true// isConnectedToInternet(application)
 
         if (isConnected) {
             if(!queryOnce) {
                 queryOnce = false
-                uiScope.launch {
+                viewModelScope.launch {
                     postsRepository.refreshPosts()
                 }
             }
             else{
-                Log.d("PostViewModel", "Ignoring second refresh data until app restarts...")
+                Timber.i("Ignoring second refresh data until app restarts...")
             }
         }
         else{
-            Toast.makeText(application, "No Connection to the internet!", Toast.LENGTH_SHORT).show()
+            Timber.i("No Connection to the internet!")
+            //Toast.makeText(application, "No Connection to the internet!", Toast.LENGTH_SHORT).show()
         }
     }
 }

@@ -41,3 +41,21 @@ data class Post (
         )
     }
 }
+
+fun List<Post>.asDatabaseModel(): Array<PostTable>{
+    return this.map {
+        PostTable(
+            postId = it.postId,
+            creationDate = it.creationDate,
+            createdBy = it.createdBy,
+            lastUpdateDate = it.lastUpdateDate,
+            title = it.title,
+            description = it.description,
+            likes = it.likes,
+            img = it.img,
+            first_name = it.first_name,
+            user_img = it.user_img,
+            country = it.country,
+        )
+    }.toTypedArray()
+}

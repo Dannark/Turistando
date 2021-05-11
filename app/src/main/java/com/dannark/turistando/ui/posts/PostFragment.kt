@@ -12,13 +12,20 @@ import com.dannark.turistando.R
 import com.dannark.turistando.databinding.FragmentPostBinding
 import com.dannark.turistando.home.PostsAdapter
 import com.dannark.turistando.home.PostsListener
-import com.dannark.turistando.repository.UserPreferencesRepository
+import com.dannark.turistando.repository.userpref.DefaultUserPreferencesRepository
+import com.dannark.turistando.repository.posts.DefaultPostsRepository
+import com.dannark.turistando.repository.userpref.FirstTimeSelection
 import com.dannark.turistando.viewmodels.PostViewModel
 import com.google.android.material.transition.MaterialSharedAxis
 
-class PostFragment : Fragment() {
+class   PostFragment : Fragment() {
 
+    private lateinit var binding: FragmentPostBinding
     private lateinit var viewModel: PostViewModel
+
+    private lateinit var pref: DefaultUserPreferencesRepository
+
+    private lateinit var postAdapter: PostsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,14 +43,25 @@ class PostFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        val binding = FragmentPostBinding.inflate(inflater)
+        binding = FragmentPostBinding.inflate(inflater)
+        initialize()
+        setupAdapters()
+        setupObservableFields()
+
+        return binding.root
+    }
+
+    private fun initialize(){
         binding.lifecycleOwner = this
 
-        viewModel = ViewModelProvider(this).get(PostViewModel::class.java)
-        // Set XML to access function and variables directly from the View Model
+        pref = DefaultUserPreferencesRepository.getInstance(requireContext())
+        val viewModelFactory = PostViewModelFactory(pref, DefaultPostsRepository.getRepository(requireContext()))
+        viewModel = ViewModelProvider(this, viewModelFactory).get(PostViewModel::class.java)
         binding.viewModel = viewModel
+    }
 
-        val postAdapter = PostsAdapter(PostsListener{ postId, buttonId ->
+    private fun setupAdapters() {
+        postAdapter = PostsAdapter(PostsListener{ postId, buttonId ->
             if(buttonId == "share"){
                 Toast.makeText(context, "Deletando post ${postId}", Toast.LENGTH_SHORT).show()
             }
@@ -51,7 +69,10 @@ class PostFragment : Fragment() {
                 //viewModel.likePost(postId)
             }
         })
+        binding.postsList.adapter = postAdapter
+    }
 
+    private fun setupObservableFields(){
         viewModel.posts.observe(viewLifecycleOwner, {
             it?.let {
                 postAdapter.addHeaderAndSubmitList(it)
@@ -59,15 +80,10 @@ class PostFragment : Fragment() {
         })
 
         viewModel.checkFirstTimeEnabled().observe(viewLifecycleOwner) { s ->
-            if (s == UserPreferencesRepository.FirstTimeSelection.TRUE) {
+            if (s == FirstTimeSelection.TRUE) {
                 this.findNavController()
-                        .navigate(PostFragmentDirections.actionPostFragmentToInitialFragment())
+                    .navigate(PostFragmentDirections.actionPostFragmentToInitialFragment())
             }
         }
-
-        binding.postsList.adapter = postAdapter
-
-        return binding.root
     }
-
 }

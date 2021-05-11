@@ -1,15 +1,18 @@
-package com.dannark.turistando.repository
+package com.dannark.turistando.repository.userpref
 
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.createDataStore
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import java.io.IOException
 
-class UserPreferencesRepository private constructor(context: Context){
+class DefaultUserPreferencesRepository private constructor(context: Context) :
+    UserPreferencesRepository {
     private val dataStore: DataStore<Preferences> =
         context.createDataStore(name = "settings")
 
@@ -18,22 +21,19 @@ class UserPreferencesRepository private constructor(context: Context){
         val EXPLORE_LAST_UPDATE = longPreferencesKey("explore_last_update")
     }
 
-    enum class FirstTimeSelection{
-        TRUE, FALSE
-    }
-
-    suspend fun saveExploreLastUpdate(){
+    override suspend fun saveExploreLastUpdate(){
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.EXPLORE_LAST_UPDATE] = System.currentTimeMillis()
         }
     }
 
-    val explorePreferencesFlow: Flow<Long> = dataStore.data
+    private val explorePreferencesFlow: Flow<Long> = dataStore.data
             .map { preferences ->
                 preferences[PreferencesKeys.EXPLORE_LAST_UPDATE] ?: -1
             }
+    override val exploreLastUpdate = explorePreferencesFlow.asLiveData()
 
-    suspend fun savePreferencesFirstIme(isSelected: Boolean){
+    override suspend fun savePreferencesFirstIme(isSelected: Boolean){
         val selection = when (isSelected) {
             true -> FirstTimeSelection.TRUE.toString()
             false -> FirstTimeSelection.FALSE.toString()
@@ -44,7 +44,7 @@ class UserPreferencesRepository private constructor(context: Context){
         }
     }
 
-    val firstTimePreferencesFlow: Flow<FirstTimeSelection> = dataStore.data
+    private val firstTimePreferencesFlow: Flow<FirstTimeSelection> = dataStore.data
             .catch { exception ->
                 if (exception is IOException) {
                     emit(emptyPreferences())
@@ -57,13 +57,15 @@ class UserPreferencesRepository private constructor(context: Context){
                 strValue.asEnumOrDefault()
             }
 
+    override val isFirstLaunch = firstTimePreferencesFlow.asLiveData()
+
     companion object {
         @Volatile
-        private var INSTANCE: UserPreferencesRepository? = null
+        private var INSTANCE: DefaultUserPreferencesRepository? = null
 
-        fun getInstance(context: Context): UserPreferencesRepository {
+        fun getInstance(context: Context): DefaultUserPreferencesRepository {
             return INSTANCE ?: synchronized(this) {
-                val instance = UserPreferencesRepository(context)
+                val instance = DefaultUserPreferencesRepository(context)
                 INSTANCE = instance
                 instance
             }

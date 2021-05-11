@@ -10,6 +10,7 @@ import androidx.lifecycle.asLiveData
 import com.dannark.turistando.api.PlacesApi
 import com.dannark.turistando.database.TuristandoDatabase
 import com.dannark.turistando.repository.*
+import com.dannark.turistando.repository.userpref.DefaultUserPreferencesRepository
 import com.dannark.turistando.util.isConnectedToInternet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +26,7 @@ class ExploreViewModel(val userId: Int, activity: Activity)
         super.onCleared()
         viewModelJob.cancel()
     }
-    private val pref = UserPreferencesRepository.getInstance(activity)
+    private val pref = DefaultUserPreferencesRepository.getInstance(activity)
     private val uiScope = CoroutineScope(Dispatchers.Main +  viewModelJob)
     private val database = TuristandoDatabase.getInstance(activity.application)
     private val placeApi = PlacesApi.getInstance(activity.application)
@@ -77,7 +78,7 @@ class ExploreViewModel(val userId: Int, activity: Activity)
     }
 
     fun getExploreLastUpdate(): LiveData<Long> {
-        return pref.explorePreferencesFlow.asLiveData()
+        return pref.exploreLastUpdate
     }
 
     private fun updateExploreLastUpdate(){

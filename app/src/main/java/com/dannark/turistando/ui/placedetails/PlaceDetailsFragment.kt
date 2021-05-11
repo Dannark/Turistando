@@ -35,9 +35,7 @@ class PlaceDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         updateStatusBar()
-//        val binding: FragmentPlaceDetailsBinding = DataBindingUtil.inflate(
-//            inflater, R.layout.fragment_place_details, container, false
-//        )
+
         val application = requireNotNull(activity).application
         val binding = FragmentPlaceDetailsBinding.inflate(inflater)
         binding.lifecycleOwner = this

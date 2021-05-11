@@ -8,11 +8,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import androidx.work.*
 import com.dannark.turistando.databinding.ActivityMainBinding
-import com.dannark.turistando.repository.UserPreferencesRepository
+import com.dannark.turistando.repository.userpref.DefaultUserPreferencesRepository
+import com.dannark.turistando.repository.userpref.FirstTimeSelection
 import com.dannark.turistando.viewmodels.MainViewModel
 import com.dannark.turistando.work.RefreshDataWork
 import kotlinx.coroutines.CoroutineScope
@@ -45,9 +47,9 @@ class MainActivity : AppCompatActivity() {
         delayedInit()
     }
 
-    private fun setupMenu(selection: UserPreferencesRepository.FirstTimeSelection) {
+    private fun setupMenu(selection: FirstTimeSelection) {
         binding.bottomNavigation.isVisible = when (selection) {
-            UserPreferencesRepository.FirstTimeSelection.TRUE -> false
+            FirstTimeSelection.TRUE -> false
             else -> true
         }
     }

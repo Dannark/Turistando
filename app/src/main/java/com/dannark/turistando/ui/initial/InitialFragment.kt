@@ -8,7 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.dannark.turistando.databinding.FragmentInitialBinding
-import com.dannark.turistando.repository.UserPreferencesRepository
+import com.dannark.turistando.repository.userpref.DefaultUserPreferencesRepository
+import com.dannark.turistando.repository.userpref.FirstTimeSelection
 import com.dannark.turistando.viewmodels.InitialViewModel
 
 
@@ -28,7 +29,7 @@ class InitialFragment : Fragment() {
         binding.viewModel =viewModel
 
         viewModel.checkFirstTimeEnabled().observe(viewLifecycleOwner){ selection ->
-            if(selection == UserPreferencesRepository.FirstTimeSelection.FALSE){
+            if(selection == FirstTimeSelection.FALSE){
                 this.findNavController().navigate(InitialFragmentDirections.actionGlobalPostsFragment())
             }
         }
