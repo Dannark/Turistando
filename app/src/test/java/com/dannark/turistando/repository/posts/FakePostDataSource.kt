@@ -23,13 +23,12 @@ class FakePostDataSource(postList: List<Post> = mutableListOf()): PostDataSource
     }
 
     override suspend fun getPostList(): List<Post> {
-        return posts.value!!
+        return posts.value?: listOf()
     }
 
     override suspend fun setPosts(postList: List<Post>) {
         fillArray(postList)
         _posList.value = postServiceData.values.toList()
-        //_posList.value = postList
     }
 
     override fun deleteItems(postList: Array<PostTable>) {

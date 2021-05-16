@@ -18,9 +18,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.*
 import com.google.android.libraries.places.api.net.*
+import timber.log.Timber
 
 class PlacesApi private constructor(applicationContext:Context) {
-    private val TAG = "PlacesApi"
 
     private val apiKey = applicationContext.getString(R.string.google_api_key)
     private val placesClient = Places.initialize(applicationContext, apiKey).run {
@@ -56,19 +56,19 @@ class PlacesApi private constructor(applicationContext:Context) {
                 _lastPredictedPlacesResult.value = response.autocompletePredictions
 
                 for (prediction in response.autocompletePredictions) {
-                    Log.e("test", "${prediction.getPrimaryText(null)} # ${prediction.getSecondaryText(null)} # ${prediction.placeTypes} # ${prediction.distanceMeters}")
+                    Timber.w( "${prediction.getPrimaryText(null)} # ${prediction.getSecondaryText(null)} # ${prediction.placeTypes} # ${prediction.distanceMeters}")
                 }
 
 
             }.addOnFailureListener { exception: Exception? ->
                 if (exception is ApiException) {
-                    Log.e("test", "Place not found. StatusCode: " + exception.statusCode)
+                    Timber.e( "Place not found. StatusCode: " + exception.statusCode)
                 }
             }
     }
 
     fun getLocationsNeayBy(activity: FragmentActivity, callback: (places: List<Place>) -> Unit){
-        Log.e(TAG, "getLocationsNeayBy")
+        Timber.w("getLocationsNeayBy")
         val placeFields: List<Place.Field> = listOf(
                 Place.Field.ID,
                 Place.Field.NAME,
@@ -94,14 +94,14 @@ class PlacesApi private constructor(applicationContext:Context) {
                                 && placeLikelihood.place.rating ?: 0.0 > 3.9) {
                             list.add(placeLikelihood.place)
                         }
-                        Log.i(TAG,"Place '${placeLikelihood.place.name}' - (${placeLikelihood.place.types}) - likelihood: ${placeLikelihood.likelihood}")
+                        Timber.i("Place '${placeLikelihood.place.name}' - (${placeLikelihood.place.types}) - likelihood: ${placeLikelihood.likelihood}")
 
                     }
                     callback(list)
                 } else {
                     val exception = task.exception
                     if (exception is ApiException) {
-                        Log.e(TAG, "Place not found: ${exception.statusCode}")
+                        Timber.i("Place not found: ${exception.statusCode}")
                     }
                 }
             }
@@ -122,7 +122,7 @@ class PlacesApi private constructor(applicationContext:Context) {
                     // Get the photo metadata.
                     val metada = place.photoMetadatas
                     if (metada == null || metada.isEmpty()) {
-                        Log.w(TAG, "No photo metadata.")
+                        Timber.w( "No photo metadata.")
                         return@addOnSuccessListener
                     }
 

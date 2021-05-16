@@ -24,22 +24,14 @@ class PostViewModel(
     val posts = postsRepository.posts
 
     init {
-        val isConnected = true// isConnectedToInternet(application)
-
-        if (isConnected) {
-            if(!queryOnce) {
-                queryOnce = false
-                viewModelScope.launch {
-                    postsRepository.refreshPosts()
-                }
-            }
-            else{
-                Timber.i("Ignoring second refresh data until app restarts...")
+        if(!queryOnce) {
+            queryOnce = false
+            viewModelScope.launch {
+                postsRepository.refreshPosts()
             }
         }
         else{
-            Timber.i("No Connection to the internet!")
-            //Toast.makeText(application, "No Connection to the internet!", Toast.LENGTH_SHORT).show()
+            Timber.i("Ignoring second refresh data until app restarts...")
         }
     }
 }

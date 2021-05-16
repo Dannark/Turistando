@@ -13,8 +13,8 @@
         android:title="@string/explore"
         app:showAsAction="always" />
     <item
-        android:id="@+id/profileFragment"
-        android:icon="@drawable/baseline_person_pin_24"
+        android:id="@+id/addPostFragment"
+        android:icon="@drawable/ic_baseline_add_a_photo_24"
         android:title="@string/profile"
         app:showAsAction="always" />
     <item

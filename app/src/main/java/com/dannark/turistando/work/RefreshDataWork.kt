@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.dannark.turistando.TuristandoApp
 import com.dannark.turistando.repository.posts.DefaultPostsRepository
 import retrofit2.HttpException
 
@@ -16,8 +17,8 @@ class RefreshDataWork (appContext: Context, params: WorkerParameters):
 
     override suspend fun doWork(): Result {
 //        val database = TuristandoDatabase.getInstance(applicationContext)
-
-        val repository = DefaultPostsRepository.getRepository(applicationContext)
+//        val repository = DefaultPostsRepository.getRepository(applicationContext)
+        val repository = (applicationContext as TuristandoApp).postRepository
 
         return try {
             Log.e("RereshDataWork","REFRESHING POST DATA ")

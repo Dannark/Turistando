@@ -11,7 +11,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="90dp">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -21,7 +22,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="60dp"
                 android:transitionName="@string/place_card_detail_transition_name">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +29,7 @@
                     android:layout_height="match_parent">
 
                     <Button
-                        android:id="@+id/button12"
+                        android:id="@+id/book_the_hotel"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"

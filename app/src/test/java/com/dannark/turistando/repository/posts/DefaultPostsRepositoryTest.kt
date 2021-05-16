@@ -1,8 +1,10 @@
 package com.dannark.turistando.repository.posts
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.dannark.turistando.MainCoroutineRule
 import com.dannark.turistando.domain.Post
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual
@@ -35,18 +37,22 @@ class DefaultPostsRepositoryTest{
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
+    @ExperimentalCoroutinesApi
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
+
     @Before
     fun createRepository(){
         postLocalDataSource = FakePostDataSource(localPosts)
         postRemoteDataSource = FakePostDataSource(remotePosts)
 
         postRepositoryDefault = DefaultPostsRepository(
-            postLocalDataSource, postRemoteDataSource, Dispatchers.Unconfined
+            postLocalDataSource, postRemoteDataSource, Dispatchers.Main
         )
     }
 
     @Test
-    fun refreshPosts_requestAllPostsFromRemoterServerAndRemovesOldOnes() = runBlockingTest{
+    fun refreshPosts_requestAllPostsFromRemoterServerAndRemovesOldOnes() = mainCoroutineRule.runBlockingTest{
         postRepositoryDefault.refreshPosts()
 
         val posts = postRepositoryDefault.posts

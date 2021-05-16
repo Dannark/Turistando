@@ -44,4 +44,5 @@ ext {
     androidXTestCoreVersion = '1.2.0'
     archTestingVersion = '2.0.0'
     coroutinesVersion = '1.2.1'
+    fragmentVersion = '1.1.0-alpha07'
 }

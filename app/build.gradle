@@ -93,6 +93,11 @@ dependencies {
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "androidx.test:core-ktx:$androidXTestCoreVersion"
     testImplementation "androidx.arch.core:core-testing:$archTestingVersion"
+    androidTestImplementation "androidx.arch.core:core-testing:$archTestingVersion"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion" //runBlockingTest
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion" //runBlockingTest
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
+
+
+
 }

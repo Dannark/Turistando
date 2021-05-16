@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.dannark.turistando.R
+import com.dannark.turistando.TuristandoApp
 import com.dannark.turistando.databinding.FragmentPostBinding
 import com.dannark.turistando.home.PostsAdapter
 import com.dannark.turistando.home.PostsListener
@@ -21,9 +23,10 @@ import com.google.android.material.transition.MaterialSharedAxis
 class   PostFragment : Fragment() {
 
     private lateinit var binding: FragmentPostBinding
-    private lateinit var viewModel: PostViewModel
-
-    private lateinit var pref: DefaultUserPreferencesRepository
+    private val viewModel by viewModels<PostViewModel> {
+        PostViewModelFactory( DefaultUserPreferencesRepository.getInstance(requireContext()),
+            (requireContext().applicationContext as TuristandoApp).postRepository )
+    }
 
     private lateinit var postAdapter: PostsAdapter
 
@@ -42,22 +45,18 @@ class   PostFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
-        binding = FragmentPostBinding.inflate(inflater)
-        initialize()
-        setupAdapters()
-        setupObservableFields()
-
+        binding = FragmentPostBinding.inflate(inflater).apply {
+            this.viewmodel = viewModel
+        }
         return binding.root
     }
 
-    private fun initialize(){
-        binding.lifecycleOwner = this
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        binding.lifecycleOwner = this.viewLifecycleOwner
 
-        pref = DefaultUserPreferencesRepository.getInstance(requireContext())
-        val viewModelFactory = PostViewModelFactory(pref, DefaultPostsRepository.getRepository(requireContext()))
-        viewModel = ViewModelProvider(this, viewModelFactory).get(PostViewModel::class.java)
-        binding.viewModel = viewModel
+        setupAdapters()
+        setupObservableFields()
     }
 
     private fun setupAdapters() {

@@ -20,21 +20,6 @@ class DefaultPostsRepository (
 
     override val posts : LiveData<List<Post>> = postLocalDataSource.posts
 
-    companion object {
-        @Volatile
-        private var INSTANCE: DefaultPostsRepository? = null
-
-        fun getRepository(context: Context): DefaultPostsRepository {
-            return INSTANCE ?: synchronized(this) {
-                val database =  TuristandoDatabase.getInstance(context)
-
-                DefaultPostsRepository(PostLocalDataSource(database.postDao), PostRemoteDataSource()).also {
-                    INSTANCE = it
-                }
-            }
-        }
-    }
-
     override suspend fun refreshPosts(){
         withContext(ioDispatcher){
             try {
